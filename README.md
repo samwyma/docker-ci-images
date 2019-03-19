@@ -1,4 +1,4 @@
-# CI Build Image
+# Docker CI Images
 
 A slim, carefully selected set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
 
