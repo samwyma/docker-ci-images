@@ -17,4 +17,4 @@
 
 ## Builds
 
-Automated Builds via DockerHub (for all commits and base image changes), see the [`project page`](https://hub.docker.com/u/landtech/ci-base).
+Automated Builds via DockerHub (for all commits and base image changes), see the [project page](https://hub.docker.com/u/landtech/ci-base).
