@@ -17,4 +17,4 @@ A slim, carefully selected set of packages on top of the `docker:stable` image t
 
 ## Usage
 
-[`landtech:ci-build-image`](https://hub.docker.com/u/landtech/ci-build-server) (built weekly and pushed to DockerHub)
+[`landtech:ci-base`](https://hub.docker.com/u/landtech/ci-base) (built weekly and pushed to DockerHub)
