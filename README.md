@@ -1,6 +1,6 @@
 # Docker CI Images
 
-A slim, carefully selected set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
+[`landtech:ci-base`](https://hub.docker.com/u/landtech/ci-base) - a slim, carefully selected set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
 
 ## Included
 
@@ -15,6 +15,6 @@ A slim, carefully selected set of packages on top of the `docker:stable` image t
 - `tar`
 - `wget`
 
-## Usage
+## Builds
 
-[`landtech:ci-base`](https://hub.docker.com/u/landtech/ci-base) (built weekly and pushed to DockerHub)
+Automated Builds via DockerHub (for all commits and base image changes), see the [`project page`](https://hub.docker.com/u/landtech/ci-base).
