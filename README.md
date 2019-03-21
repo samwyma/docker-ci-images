@@ -11,7 +11,7 @@
 - `git`
 - `jq`
 - `make`
-- `python3` [`awscli`, `pipenv`]
+- `python3` [`awscli`, `awsebcli`, `pipenv`]
 - `tar`
 - `wget`
 
