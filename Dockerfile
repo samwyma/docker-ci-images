@@ -2,6 +2,7 @@ FROM docker:stable
 
 RUN apk add --no-cache \
     ca-certificates \
+    coreutils \
     curl \
     git \
     jq \

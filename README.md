@@ -16,6 +16,8 @@
 - `wget`
 - `zip`
 
+As well as `[coreutils](https://pkgs.alpinelinux.org/contents?name=coreutils&repo=main)` which includes numerous common nix utils
+
 ## Builds
 
 Automated Builds via DockerHub (for all commits and base image changes), see the [project page](https://hub.docker.com/r/landtech/ci-base).
