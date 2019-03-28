@@ -15,6 +15,7 @@
 - `tar`
 - `wget`
 - `zip`
+- `util-linux`
 
 As well as `[coreutils](https://pkgs.alpinelinux.org/contents?name=coreutils&repo=main)` which includes numerous common nix utils
 

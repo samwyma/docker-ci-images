@@ -13,4 +13,5 @@ RUN apk add --no-cache \
     tar \
     wget \
     zip \
+    util-linux \
     && pip3 install --upgrade awscli awsebcli pip pipenv
