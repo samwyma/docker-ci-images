@@ -1,6 +1,6 @@
 # Docker CI Images
 
-[`landtech/ci-base`](https://hub.docker.com/u/landtech/ci-base) - a slim, carefully selected set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
+[`landtech/ci-base`](https://hub.docker.com/u/landtech/ci-base) - a slim, __carefully chosen__ set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
 
 ## Included
 
@@ -21,4 +21,4 @@ As well as `[coreutils](https://pkgs.alpinelinux.org/contents?name=coreutils&rep
 
 ## Builds
 
-Automated Builds via DockerHub (for all commits and base image changes), see the [project page](https://hub.docker.com/r/landtech/ci-base).
+Automated Builds via DockerHub (for all commits and base image changes), see the [project page](https://hub.docker.com/r/landtech/ci-base)
