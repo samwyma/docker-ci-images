@@ -24,6 +24,6 @@ RUN pip install credstash
 
 RUN pip install yq
 
-COPY install_kube_iam_user.sh install_kube_iam_user.sh
+COPY install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 ENV AWS_DEFAULT_REGION=eu-west-1
