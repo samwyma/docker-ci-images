@@ -28,7 +28,7 @@ if [ ! -f ~/.kube/config ]; then
   kubectl config view > ~/.kube/config
 fi
 
-if [ -z ${selected_aws_profile+x} ]; then 
+if [ "$selected_aws_profile" == "" ]; then 
   env=null
 else 
   env='
@@ -40,7 +40,7 @@ else
   export AWS_PROFILE="$selected_aws_profile"
 fi
 
-if [ -z ${cluster_name+x} ]; then
+if [ "$cluster_name" == "" ]; then
   context=$(kubectl config current-context || echo "")
   if [ "$context" == "" ]; then
     echo "No current kubernetes context. You must set the --cluster flag with the desired cluster to use (e.g. --cluster k8.sandbox.landinsight.io)"
