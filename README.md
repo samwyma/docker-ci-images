@@ -1,24 +1,11 @@
 # Docker CI Images
 
-[`landtech/ci-base`](https://hub.docker.com/u/landtech/ci-base) - a slim, __carefully chosen__ set of packages on top of the `docker:stable` image to reduce common repetition in build configs.
+A selection of landtech CI docker images. 
 
-## Included
+## Building
 
-- `bash`
-- `ca-certificates`
-- `curl`
-- `docker`
-- `git`
-- `jq`
-- `make`
-- `python3` [`awscli`, `awsebcli`, `pipenv`]
-- `tar`
-- `wget`
-- `zip`
-- `util-linux`
+Each image is built in their respective folder. E.g. `docker build -t landtech/ci-base base`
 
-As well as [coreutils](https://pkgs.alpinelinux.org/contents?name=coreutils&repo=main) which includes numerous common nix utils
+### Automated Builds
 
-## Builds
-
-Automated Builds via DockerHub (for all commits and base image changes), see the [project page](https://hub.docker.com/r/landtech/ci-base)
+Automated Builds via DockerHub (for all commits and base image changes). Configure this on each images project page when creating a new image.
