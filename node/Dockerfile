@@ -58,4 +58,6 @@ RUN addgroup -g 1000 node \
         linux-headers \
         make \
         xz \
-        python \
+        python
+
+ENV PATH="./node_modules/.bin:${PATH}"
