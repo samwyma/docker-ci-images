@@ -1,4 +1,4 @@
-FROM landtech/ci-base:latest
+FROM landtech/ci-node:latest
 
 # Note: Latest version of kubectl may be found at:
 # https://aur.archlinux.org/packages/kubectl-bin/
