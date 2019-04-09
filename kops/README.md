@@ -5,6 +5,12 @@
 ## Included
 
 - `kops`
+- `go`
+- `jsonnet`
+- `jb`
+- `gojsontoyaml`
+- `render`
+- `yq`
 
 ## Builds
 
