@@ -1,0 +1,35 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+      - image: landtech/ci-base
+
+jobs:
+  build:
+    executor: default
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            KUBE_VERSION="v$(curl 'https://aur.archlinux.org/rpc?v=5&type=info&arg=kubectl-bin' | jq -r '.results[].Version' | cut -d '-' -f 1)"
+            HELM_VERSION="$(curl --silent -L 'https://api.github.com/repos/kubernetes/helm/releases/latest' | jq -r .tag_name)"
+            docker build --build-arg KUBE_VERSION=$KUBE_VERSION --build-arg HELM_VERSION=$HELM_VERSION -t landtech/ci-kubernetes --file kubernetes/Dockerfile
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build:
+          context: AWS
+  weekly:
+    jobs:
+      - build:
+          context: AWS
+    triggers:
+      - schedule:
+          cron: "0 5 * * 1"
+          filters:
+            branches:
+              only: master

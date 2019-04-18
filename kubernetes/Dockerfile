@@ -2,10 +2,10 @@ FROM landtech/ci-node:latest
 
 # Note: Latest version of kubectl may be found at:
 # https://aur.archlinux.org/packages/kubectl-bin/
-ENV KUBE_VERSION="v$(curl 'https://aur.archlinux.org/rpc?v=5&type=info&arg=kubectl-bin' | jq -r '.results[].Version' | cut -d '-' -f 1)"
+ARG KUBE_VERSION
 # Note: Latest version of helm may be found at:
 # https://github.com/kubernetes/helm/releases
-ENV HELM_VERSION="$(curl --silent -L 'https://api.github.com/repos/kubernetes/helm/releases/latest' | jq -r .tag_name)"
+ARG HELM_VERSION
 
 RUN apk add --no-cache \
     bash \
