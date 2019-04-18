@@ -1,11 +1,13 @@
 FROM landtech/ci-node:latest
 
-# Note: Latest version of kubectl may be found at:
 # https://aur.archlinux.org/packages/kubectl-bin/
-ARG KUBE_VERSION
-# Note: Latest version of helm may be found at:
+ENV KUBE_VERSION="v1.11.3"
+
 # https://github.com/kubernetes/helm/releases
-ARG HELM_VERSION
+ENV HELM_VERSION="v2.13.1"
+
+# https://github.com/kubernetes/helm/releases
+ENV IAM_AUTHENTICATOR_VERSION="1.11.5"
 
 RUN apk add --no-cache \
     bash \
@@ -19,7 +21,7 @@ RUN apk add --no-cache \
     && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
     && chmod +x /usr/local/bin/helm \
     # aws-iam-authenticator
-    && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/1.11.5/2018-12-06/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
+    && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/${IAM_AUTHENTICATOR_VERSION}/2018-12-06/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
     && chmod +x /usr/local/bin/aws-iam-authenticator \
     # credstash
     && apk --no-cache --virtual credstash-dependencies add \
