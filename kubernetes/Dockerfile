@@ -31,11 +31,11 @@ RUN apk add --no-cache \
     git \
     openssh \
     libressl-dev \
+    gcc \
     # credstash
     && apk --no-cache --virtual credstash-dependencies add \
     libc-dev \
     libffi-dev \
-    gcc \
     make \
     python3-dev \
     && pip install credstash \
