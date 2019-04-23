@@ -32,13 +32,15 @@ RUN apk add --no-cache \
     openssh \
     libressl-dev \
     gcc \
+    python3-dev \
+    libc-dev \
     # credstash
     && apk --no-cache --virtual credstash-dependencies add \
-    libc-dev \
     libffi-dev \
     make \
-    python3-dev \
     && pip install credstash \
     && apk del credstash-dependencies \
     # yq
-    && pip install yq
+    && pip install yq \
+    # Init helm client
+    && helm init --client-only
