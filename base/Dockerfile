@@ -14,4 +14,14 @@ RUN apk add --no-cache \
     wget \
     zip \
     util-linux \
-    && pip3 install --upgrade awscli awsebcli pip pipenv
+    && pip3 install --upgrade awscli awsebcli pip pipenv \
+    # credstash
+    && apk --no-cache --virtual credstash-dependencies add \
+    libc-dev \
+    libffi-dev \
+    libressl-dev \
+    gcc \
+    make \
+    python3-dev \
+    && pip install credstash \
+    && apk del credstash-dependencies
