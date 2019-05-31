@@ -90,7 +90,7 @@ cat ~/.kube/config | yq . \
 mv "$temp_config" ~/.kube/config
 
 # Add context
-context_name="$user_name"
+context_name="$cluster_name"
 kubectl config set-cluster "$cluster_name" --server "https://api.$cluster_name"
 kubectl config set "clusters.$cluster_name.certificate-authority-data" "$cluster_ca_data"
 kubectl config set-context "$context_name" --user "$user_name" --cluster "$cluster_name"
