@@ -34,10 +34,10 @@ RUN apk add --no-cache \
     gcc \
     python3-dev \
     libc-dev \
+    make \
     # credstash
     && apk --no-cache --virtual credstash-dependencies add \
     libffi-dev \
-    make \
     && pip install credstash \
     && apk del credstash-dependencies \
     # yq
