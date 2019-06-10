@@ -24,4 +24,10 @@ RUN apk add --no-cache \
     make \
     python3-dev \
     && pip install credstash \
-    && apk del credstash-dependencies
+    && apk del credstash-dependencies \
+    # Bats
+    && git clone https://github.com/sstephenson/bats.git \
+    && cd bats \
+    && ./install.sh /usr/local \
+    && cd ../ \
+    && rm -rf bats
