@@ -5,10 +5,13 @@
 ## Included
 
 - `bash`
+- `bats`
 - `ca-certificates`
+- `credstash`
 - `curl`
 - `docker`
 - `git`
+- `grep`
 - `jq`
 - `make`
 - `python3` [`awscli`, `awsebcli`, `pipenv`]
