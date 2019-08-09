@@ -6,6 +6,7 @@ RUN apk add --no-cache \
     coreutils \
     curl \
     git \
+    grep \
     jq \
     make \
     openssh-client \
@@ -23,9 +24,9 @@ RUN apk add --no-cache \
     gcc \
     make \
     python3-dev \
-    && pip install credstash \
+    && pip3 install --upgrade credstash \
     && apk del credstash-dependencies \
-    # Bats
+    # bats
     && git clone https://github.com/sstephenson/bats.git \
     && cd bats \
     && ./install.sh /usr/local \
