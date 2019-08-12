@@ -24,6 +24,7 @@ RUN apk add --no-cache \
     gcc \
     make \
     python3-dev \
+    && pip install credstash \
     && pip3 install --upgrade credstash \
     && apk del credstash-dependencies \
     # bats
