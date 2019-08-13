@@ -26,6 +26,7 @@ RUN apk add --no-cache \
     python3-dev \
     && pip install credstash \
     && apk del credstash-dependencies \
+    && pip3 install PyYaml==3.10 \
     # bats
     && git clone https://github.com/sstephenson/bats.git \
     && cd bats \
