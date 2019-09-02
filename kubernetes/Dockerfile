@@ -16,30 +16,23 @@ RUN apk add wget \
   && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/${VERSION}/2018-12-06/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
   && chmod +x /usr/local/bin/aws-iam-authenticator
 
+FROM alpine:latest as argo
+ENV VERSION="v2.3.0"
+RUN apk add wget \
+  && wget -q https://github.com/argoproj/argo/releases/download/${VERSION}/argo-linux-amd64 -O /usr/local/bin/argo \
+  && chmod +x /usr/local/bin/argo
+
 FROM landtech/ci-node:latest
 COPY --from=kube /usr/local/bin/kubectl /usr/local/bin
 COPY --from=helm /usr/local/bin/helm /usr/local/bin
 COPY --from=authenticator /usr/local/bin/aws-iam-authenticator /usr/local/bin
+COPY --from=argo /usr/local/bin/argo /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 ENV AWS_DEFAULT_REGION=eu-west-1
 
 RUN apk add --no-cache \
-  bash \
-  ca-certificates \
-  curl \
-  git \
   openssh \
-  libressl-dev \
-  gcc \
-  python3-dev \
-  libc-dev \
-  make \
-  # credstash
-  && apk --no-cache --virtual credstash-dependencies add \
-  libffi-dev \
-  && pip install credstash \
-  && apk del credstash-dependencies \
   # yq
   && pip install yq \
   # Init helm client
