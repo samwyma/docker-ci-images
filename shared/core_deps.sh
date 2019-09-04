@@ -22,17 +22,13 @@ apk add --no-cache \
   wget \
   zip \
   util-linux \
-  libressl-dev
+  libressl-dev \
+  libffi-dev
 
 # Pip deps
-pip3 install --upgrade awscli awsebcli pip pipenv
-  
-# Credstash
-apk --no-cache --virtual credstash-dependencies add \
-  libffi-dev \
-  && pip install credstash \
-  && apk del credstash-dependencies \
-  && pip3 install PyYaml==3.10
+pip3 install --upgrade awscli awsebcli pip pipenv credstash
+
+pip3 install PyYaml==3.10
 
 # bats
 git clone https://github.com/sstephenson/bats.git \
