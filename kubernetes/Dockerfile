@@ -22,11 +22,18 @@ RUN apk add wget \
   && wget -q https://github.com/argoproj/argo/releases/download/${VERSION}/argo-linux-amd64 -O /usr/local/bin/argo \
   && chmod +x /usr/local/bin/argo
 
+FROM alpine:latest as render
+ENV RENDER_VERSION=v0.1.3
+RUN apk add curl \
+  && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
+  && chmod +x /usr/local/bin/render
+
 FROM landtech/ci-node:latest
 COPY --from=kube /usr/local/bin/kubectl /usr/local/bin
 COPY --from=helm /usr/local/bin/helm /usr/local/bin
 COPY --from=authenticator /usr/local/bin/aws-iam-authenticator /usr/local/bin
 COPY --from=argo /usr/local/bin/argo /usr/local/bin
+COPY --from=render /usr/local/bin/render /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 ENV AWS_DEFAULT_REGION=eu-west-1

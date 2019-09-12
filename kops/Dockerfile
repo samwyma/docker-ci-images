@@ -11,14 +11,7 @@ RUN apk add git \
   && go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb \
   && go get github.com/brancz/gojsontoyaml
 
-FROM alpine:latest as render
-ENV RENDER_VERSION=v0.1.3
-RUN apk add curl \
-  && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
-  && chmod +x /usr/local/bin/render
-
 FROM landtech/ci-kubernetes:latest
 COPY --from=kops /usr/local/bin/kops /usr/local/bin
-COPY --from=render /usr/local/bin/render /usr/local/bin
 COPY --from=golang /go/bin /usr/local/bin
 RUN pip install yq
