@@ -2,37 +2,46 @@
 
 set -e
 
-# Core deps
+# core
+apk add --no-cache \
+  ca-certificates \
+  git \
+  openssh-client \
+  python3
+
+# tools
 apk add --no-cache \
   bash \
-  ca-certificates \
   coreutils \
   curl \
-  git \
   grep \
   jq \
   make \
-  openssh-client \
-  gcc \
-  python3-dev \
-  libc-dev \
-  make \
-  python3 \
   tar \
   wget \
   zip \
-  util-linux \
-  libressl-dev \
-  libffi-dev
+  util-linux
 
-# Pip deps
-pip3 install --upgrade awscli awsebcli pip pipenv credstash
-
+# pip
+pip3 install --upgrade pip pipenv
+pip3 install --upgrade awscli awsebcli
 pip3 install PyYaml==3.10
 
+# credstash
+apk add --no-cache \
+  libressl-dev
+apk add --no-cache --virtual credstash-build-dependencies \
+  libc-dev \
+  libffi-dev \
+  gcc \
+  make \
+  python3-dev
+pip3 install --upgrade credstash
+apk del credstash-build-dependencies
+
 # bats
-git clone https://github.com/sstephenson/bats.git \
-  && cd bats \
-  && ./install.sh /usr/local \
-  && cd ../ \
-  && rm -rf bats
+git clone https://github.com/sstephenson/bats.git
+cd bats
+./install.sh /usr/local
+cd ../
+rm -rf bats
