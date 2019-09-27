@@ -11,7 +11,11 @@ RUN apk add git \
   && go get github.com/jsonnet-bundler/jsonnet-bundler/cmd/jb \
   && go get github.com/brancz/gojsontoyaml
 
+FROM alpine:latest as gcc
+RUN apk add gcc
+
 FROM landtech/ci-kubernetes:latest
 COPY --from=kops /usr/local/bin/kops /usr/local/bin
 COPY --from=golang /go/bin /usr/local/bin
+COPY --from=gcc /usr/bin/gcc /usr/local/bin
 RUN pip install yq
