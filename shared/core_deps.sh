@@ -37,7 +37,6 @@ apk add --no-cache --virtual credstash-build-dependencies \
   make \
   python3-dev
 pip3 install --upgrade credstash
-apk del credstash-build-dependencies
 
 # aws extensions
 git clone https://github.com/landtechnologies/aws-extensions.git
