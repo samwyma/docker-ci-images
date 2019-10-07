@@ -24,8 +24,10 @@ apk add --no-cache \
 
 # pip
 pip3 install --upgrade pip pipenv
-pip3 install --upgrade awscli awsebcli
 pip3 install PyYaml==3.10
+
+# aws cli
+pip3 install --upgrade awscli awsebcli
 
 # credstash
 apk add --no-cache \
