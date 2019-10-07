@@ -24,10 +24,13 @@ apk add --no-cache \
 
 # pip
 pip3 install --upgrade pip pipenv
-pip3 install PyYaml==3.10
 
 # aws cli
-pip3 install --upgrade awscli awsebcli
+pip3 install --upgrade awscli
+mkdir -p /root/.aws/cli
+curl -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
+
+pip3 install awsebcli==3.13.0
 
 # credstash
 apk add --no-cache \
