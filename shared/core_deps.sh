@@ -30,7 +30,7 @@ pip3 install --upgrade awscli
 mkdir -p /root/.aws/cli
 curl -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
 
-pip3 install awsebcli==3.13.0
+pip3 install awsebcli==3.14.7
 
 # credstash
 apk add --no-cache \
