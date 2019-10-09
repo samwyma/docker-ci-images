@@ -1,0 +1,66 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+# And for our LandInsight docs, see
+# https://docs.google.com/document/d/198InY3JJwqviZS0P0lERd-cfMe1yrSB9MSkE4366xX4/edit?usp=sharing
+#
+version: 2.1
+
+jobs:
+  build_and_push:
+    parameters:
+      image_folder:
+        description: Path to image folder
+        type: string
+    docker:
+      - image: landtech/ci-base
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          folder="<< parameters.image_folder >>"
+          docker build -t landtech/ci-$folder -f $folder/Dockerfile .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push landtech/ci-$folder
+
+workflow_jobs: &workflow_jobs
+  jobs:
+    - build_and_push:
+        name: build_base
+        image_folder: base
+        context: DockerHub
+
+    - build_and_push:
+        name: build_node
+        image_folder: node
+        context: DockerHub
+        requires:
+          - build_base
+
+    - build_and_push:
+        name: build_kubernetes
+        image_folder: kubernetes
+        context: DockerHub
+        requires:
+          - build_node
+
+    - build_and_push:
+        name: build_kops
+        image_folder: kops
+        context: DockerHub
+        requires:
+          - build_kubernetes
+
+workflows:
+  nightly:
+    <<: *workflow_jobs
+    triggers:
+      - schedule:
+          cron: "0 3 * * *"
+          filters:
+            branches:
+              only: master
+
+  deploy:
+    <<: *workflow_jobs
