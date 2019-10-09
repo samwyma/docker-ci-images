@@ -13,7 +13,7 @@ jobs:
         description: Path to image folder
         type: string
     docker:
-      - image: landtech/ci-base
+      - image: docker
     steps:
       - checkout
       - setup_remote_docker:
@@ -21,7 +21,7 @@ jobs:
       - run: |
           folder="<< parameters.image_folder >>"
           docker build -t landtech/ci-$folder -f $folder/Dockerfile .
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --pasword-stdin
           docker push landtech/ci-$folder
 
 workflow_jobs: &workflow_jobs
