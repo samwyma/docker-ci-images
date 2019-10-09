@@ -31,6 +31,7 @@ apk add --no-cache \
   make \
   python3-dev
 
+
 # aws cli
 pip3 install --upgrade awscli
 mkdir -p /root/.aws/cli
@@ -39,11 +40,10 @@ curl -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologi
 pip3 install awsebcli==3.14.7
 
 # pip
-# docker-compose be installed after awsebcli==3.14.7 as awsebcli v3.14.7 has requirements for docker-compose >=1.21.2,<1.22.0
 pip3 install --upgrade \
   pip \
   pipenv \
-  docker-compose \ 
+  docker-compose \
   credstash
 
 # bats
