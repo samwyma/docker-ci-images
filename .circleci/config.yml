@@ -21,7 +21,7 @@ jobs:
       - run: |
           folder="<< parameters.image_folder >>"
           docker build -t landtech/ci-$folder -f $folder/Dockerfile .
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --pasword-stdin
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push landtech/ci-$folder
 
 workflow_jobs: &workflow_jobs
