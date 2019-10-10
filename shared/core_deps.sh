@@ -31,7 +31,6 @@ apk add --no-cache \
   make \
   python3-dev
 
-
 # aws cli
 pip3 install --upgrade awscli
 mkdir -p /root/.aws/cli
@@ -45,6 +44,9 @@ pip3 install --upgrade \
   pipenv \
   docker-compose \
   credstash
+
+# assert
+curl -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
 
 # bats
 git clone https://github.com/sstephenson/bats.git

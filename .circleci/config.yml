@@ -1,9 +1,3 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-# And for our LandInsight docs, see
-# https://docs.google.com/document/d/198InY3JJwqviZS0P0lERd-cfMe1yrSB9MSkE4366xX4/edit?usp=sharing
-#
 version: 2.1
 
 jobs:
