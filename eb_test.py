@@ -6,7 +6,7 @@ import testinfra
 @pytest.fixture(scope="session")
 def host(request):
     subprocess.check_call(
-        ["docker", "build", "-t", "landtech/ci-base", "-f", "base/Dockerfile", "."]
+        ["docker", "build", "-t", "landtech/ci-eb", "-f", "eb/Dockerfile", "."]
     )
     docker_id = (
         subprocess.check_output(
@@ -17,7 +17,7 @@ def host(request):
                 "--detach",
                 "--entrypoint=/usr/bin/tail",  # keep the container running while we test it
                 "--tty",
-                "landtech/ci-base",
+                "landtech/ci-eb",
             ]
         )
         .decode()
@@ -58,6 +58,11 @@ def test_awscli_alias(host):
 def test_pip_packages(host):
     packages = host.pip_package.get_packages()
     assert "awscli" in packages
+    assert "awsebcli" in packages
     assert "credstash" in packages
     assert "docker-compose" in packages
+
+
+def test_awsebcli(host):
+    assert host.run("eb --version").rc == 0
 
