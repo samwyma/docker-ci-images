@@ -14,7 +14,9 @@ jobs:
           docker_layer_caching: true
       - run: |
           folder="<< parameters.image_folder >>"
-          docker build -t landtech/ci-$folder -f $folder/Dockerfile .
+          make test
+          make build folder=$folder
+
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push landtech/ci-$folder
 

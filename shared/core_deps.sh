@@ -43,6 +43,8 @@ pip3 install --upgrade \
   docker-compose \
   credstash
 
+pip3 install awsebcli==3.14.7
+
 # assert
 curl -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
 
