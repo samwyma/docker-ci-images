@@ -13,6 +13,8 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
+          apt-get install -y make
+
           folder="<< parameters.image_folder >>"
           make test
           make build folder=$folder
