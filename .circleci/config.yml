@@ -33,6 +33,13 @@ workflow_jobs: &workflow_jobs
           - build_base
 
     - build_and_push:
+        name: build_eb
+        image_folder: eb
+        context: DockerHub
+        requires:
+          - build_base
+
+    - build_and_push:
         name: build_kubernetes
         image_folder: kubernetes
         context: DockerHub

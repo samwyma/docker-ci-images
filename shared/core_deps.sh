@@ -36,14 +36,14 @@ pip3 install --upgrade awscli
 mkdir -p /root/.aws/cli
 curl -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
 
+pip3 install awsebcli==3.14.7
+
 # pip
 pip3 install --upgrade \
   pip \
   pipenv \
   docker-compose \
   credstash
-
-pip3 install awsebcli==3.14.7
 
 # assert
 curl -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
