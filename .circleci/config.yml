@@ -29,8 +29,6 @@ workflow_jobs: &workflow_jobs
         name: build_node
         image_folder: node
         context: DockerHub
-        requires:
-          - build_base
 
     - build_and_push:
         name: build_eb
