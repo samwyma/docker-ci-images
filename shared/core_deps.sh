@@ -34,7 +34,7 @@ apk add --no-cache \
 # aws cli
 pip3 install --upgrade awscli
 mkdir -p /root/.aws/cli
-curl -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
+curl -s -o /root/.aws/cli/alias -H "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7" https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
 
 # pip
 pip3 install --upgrade \
