@@ -44,7 +44,7 @@ pip3 install --upgrade \
   credstash
 
 # assert
-curl -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
+curl --fail -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
 
 # bats
 git clone https://github.com/sstephenson/bats.git
