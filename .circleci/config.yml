@@ -15,10 +15,6 @@ jobs:
           make test
 
   push:
-    parameters:
-      name:
-        description: Name of the docker image
-        type: string
     docker:
       - image: docker
     steps:
@@ -28,7 +24,9 @@ jobs:
       - run: |
           apk add --no-cache make
 
+          name="<< parameters.name >>"
           make build name=$name
+
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker push landtech/ci-$name
 
