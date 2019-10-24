@@ -1,6 +1,6 @@
 
 FROM alpine:latest as kops
-ENV KOPS_VERSION=1.11.1
+ENV KOPS_VERSION=1.14.0
 RUN apk add curl \
   && curl -L -s https://github.com/kubernetes/kops/releases/download/${KOPS_VERSION}/kops-linux-amd64 -o /usr/local/bin/kops \
   && chmod +x /usr/local/bin/kops
