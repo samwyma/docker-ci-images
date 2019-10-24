@@ -20,18 +20,18 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-## Build an image `make build folder=base`
+## Build an image `make build name=kops`
 build:
-	docker build -t landtech/ci-${folder} -f ${folder}/Dockerfile .
+	docker build -t landtech/ci-${name} -f Dockerfile_${name} .
 
 ## Run the image tests
 test:
 	pipenv install -d
 	pipenv run pytest -v
 
-## Debug an image `make debug folder=base`
+## Debug an image `make debug name=kops`
 debug: build
 	docker run \
 		--rm \
 		--entrypoint /bin/ash \
-		-it landtech/ci-${folder}
+		-it landtech/ci-${name}

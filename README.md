@@ -1,18 +1,37 @@
 # Docker CI Images
 
-Docker images used for CI
+Docker images used for CI, built nightly.
+
+## Core Dependencies
+
+`shared/core_deps.sh` - a slim, **carefully chosen** set of packages applied to an image to reduce common repetition in build configs. It exists so we can have common dependencies applied to differing base images.
+
+- `bash`
+- `bats`
+- `ca-certificates`
+- `credstash`
+- `curl`
+- `docker`
+- `git`
+- `grep`
+- `jq`
+- `make`
+- `python3` [`awscli`, `pipenv`, `credstash`]
+- `tar`
+- `wget`
+- `zip`
+- `util-linux`
 
 ## Running Locally
 
-```
+```bash
 make test
-make build folder=base
-make build folder=node
+make build name=base
+make build name=node
 ...
 ```
 
-Each image is built relative to the root and by specifying the path to the dockerfile. This allows us to share files among dockerfiles (e.g. core_deps.sh).
-
 ### Automated Builds
 
-Builds run nightly via CircleCI
+- Builds run nightly via CircleCI
+- Pushed to our Docker Hub [`landtech`](https://hub.docker.com/u/landtech) organisation
