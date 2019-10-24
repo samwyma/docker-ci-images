@@ -15,6 +15,10 @@ jobs:
           make test
 
   push:
+    parameters:
+      image-name:
+        description: Name of the docker image
+        type: string
     docker:
       - image: docker
     steps:
@@ -24,7 +28,7 @@ jobs:
       - run: |
           apk add --no-cache make
 
-          name="<< parameters.name >>"
+          name="<< parameters.image-name >>"
           make build name=$name
 
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -35,12 +39,14 @@ workflow_jobs: &workflow_jobs
     - test
     - push:
         name: base
+        image-name: base
         context: DockerHub
         requires:
           - test
 
     - push:
         name: node
+        image-name: node
         image_folder: node
         context: DockerHub
         requires:
@@ -48,18 +54,21 @@ workflow_jobs: &workflow_jobs
 
     - push:
         name: eb
+        image-name: eb
         context: DockerHub
         requires:
           - base
 
     - push:
         name: kubernetes
+        image-name: kubernetes
         context: DockerHub
         requires:
           - node
 
     - push:
         name: kops
+        image-name: kops
         context: DockerHub
         requires:
           - kubernetes
