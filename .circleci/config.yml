@@ -47,7 +47,6 @@ workflow_jobs: &workflow_jobs
     - push:
         name: node
         image-name: node
-        image_folder: node
         context: DockerHub
         requires:
           - test
