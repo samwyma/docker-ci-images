@@ -29,6 +29,12 @@ test:
 	pipenv install -d
 	pipenv run pytest -v
 
+kops:
+	docker build \
+		--build-arg=VERSION=${version} \
+		-t landtech/ci-kops \
+		-f Dockerfile_kops .
+
 ## Debug an image `make debug name=kops`
 debug: build
 	docker run \

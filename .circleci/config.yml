@@ -1,6 +1,20 @@
 version: 2.1
 
 jobs:
+  kops:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          version="$(jq -r .kops version.json)"
+          make kops version=$version
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker tag landtech/ci-kops landtech/ci-kops:$version
+          docker push landtech/ci-kops
+          docker push landtech/ci-kops:$version
   test:
     docker:
       - image: docker
@@ -65,9 +79,7 @@ workflow_jobs: &workflow_jobs
         requires:
           - node
 
-    - push:
-        name: kops
-        image-name: kops
+    - kops:
         context: DockerHub
         requires:
           - kubernetes
