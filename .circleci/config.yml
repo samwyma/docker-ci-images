@@ -1,6 +1,22 @@
 version: 2.1
 
 jobs:
+  base:
+    docker:
+      - image: docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          apk add --no-cache jq make
+
+          make base
+
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
+          docker push landtech/ci-base
+          docker push landtech/ci-base:$CIRCLE_BUILD_NUM
   kops:
     docker:
       - image: docker
@@ -9,8 +25,11 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
+          apk add --no-cache jq make
           version="$(jq -r .kops version.json)"
+
           make kops version=$version
+
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker tag landtech/ci-kops landtech/ci-kops:$version
           docker push landtech/ci-kops

@@ -29,6 +29,15 @@ test:
 	pipenv install -d
 	pipenv run pytest -v
 
+## Build the base image
+base:
+	pipenv install -d
+	pipenv run pytest -v Dockerfile_base_test.py
+	docker build \
+		-t landtech/ci-base \
+		-f Dockerfile_base .	
+
+## Build the kops image
 kops:
 	docker build \
 		--build-arg=VERSION=${version} \
