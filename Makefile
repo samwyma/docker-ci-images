@@ -24,11 +24,6 @@ help:
 build:
 	docker build -t landtech/ci-${name} -f Dockerfile_${name} .
 
-## Run the image tests
-test:
-	pipenv install -d
-	pipenv run pytest -v
-
 ## Build the base image
 base:
 	pipenv install -d
@@ -44,9 +39,11 @@ kops:
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
-## Debug an image `make debug name=kops`
-debug: build
-	docker run \
-		--rm \
-		--entrypoint /bin/ash \
-		-it landtech/ci-${name}
+## Build the eb image
+eb:
+	pipenv install -d
+	pipenv run pytest -v Dockerfile_eb_test.py
+	docker build \
+		--build-arg=VERSION=${version} \
+		-t landtech/ci-eb \
+		-f Dockerfile_eb .

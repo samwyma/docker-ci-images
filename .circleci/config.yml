@@ -1,15 +1,19 @@
 version: 2.1
 
+executors:
+  default:
+    docker:
+      - image: docker:stable
+
 jobs:
   base:
-    docker:
-      - image: docker
+    executor: default
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          apk add --no-cache jq make
+          apk add --no-cache make
 
           make base
 
@@ -18,8 +22,7 @@ jobs:
           docker push landtech/ci-base
           docker push landtech/ci-base:$CIRCLE_BUILD_NUM
   kops:
-    docker:
-      - image: docker
+    executor: default
     steps:
       - checkout
       - setup_remote_docker:
@@ -34,18 +37,23 @@ jobs:
           docker tag landtech/ci-kops landtech/ci-kops:$version
           docker push landtech/ci-kops
           docker push landtech/ci-kops:$version
-  test:
-    docker:
-      - image: docker
+
+  eb:
+    executor: default
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          apk add --no-cache make python3
-          pip3 install --upgrade pipenv
+          apk add --no-cache curl jq make
+          version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
 
-          make test
+          make eb version=$version
+
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker tag landtech/ci-kops landtech/ci-eb:$version
+          docker push landtech/ci-eb
+          docker push landtech/ci-eb:$version
 
   push:
     parameters:
@@ -69,24 +77,15 @@ jobs:
 
 workflow_jobs: &workflow_jobs
   jobs:
-    - test
-    - push:
-        name: base
-        image-name: base
+    - base:
         context: DockerHub
-        requires:
-          - test
 
     - push:
         name: node
         image-name: node
         context: DockerHub
-        requires:
-          - test
 
-    - push:
-        name: eb
-        image-name: eb
+    - eb:
         context: DockerHub
         requires:
           - base
