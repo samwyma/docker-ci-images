@@ -9,7 +9,11 @@ commands:
   prerequisites:
     steps:
       - run: |
-          apk add --no-cache jq make python3
+          apk add --no-cache \
+            coreutils \ # for GNU sort
+            jq \        # querying version.json
+            make \
+            python3     # run testinfra tests
           pip3 install --upgrade pip pipenv
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
