@@ -14,7 +14,7 @@ jobs:
           docker_layer_caching: true
       - run: |
           apk add --no-cache make python3
-          pip3 install --upgrade pip pyenv
+          pip3 install --upgrade pip pipenv
 
           make base
 
@@ -47,7 +47,7 @@ jobs:
           docker_layer_caching: true
       - run: |
           apk add --no-cache curl jq make python3
-          pip3 install --upgrade pip pyenv
+          pip3 install --upgrade pip pipenv
 
           version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
           make eb version=$version
