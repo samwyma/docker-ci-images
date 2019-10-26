@@ -13,7 +13,8 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          apk add --no-cache make
+          apk add --no-cache make python3
+          pip3 install --upgrade pip pyenv
 
           make base
 
@@ -29,8 +30,8 @@ jobs:
           docker_layer_caching: true
       - run: |
           apk add --no-cache jq make
-          version="$(jq -r .kops version.json)"
 
+          version="$(jq -r .kops version.json)"
           make kops version=$version
 
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
@@ -45,9 +46,10 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run: |
-          apk add --no-cache curl jq make
-          version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
+          apk add --no-cache curl jq make python3
+          pip3 install --upgrade pip pyenv
 
+          version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
           make eb version=$version
 
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
