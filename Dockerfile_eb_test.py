@@ -1,3 +1,4 @@
+import os
 import pytest
 import subprocess
 import testinfra
@@ -6,7 +7,16 @@ import testinfra
 @pytest.fixture(scope="session")
 def host(request):
     subprocess.check_call(
-        ["docker", "build", "-t", "landtech/ci-eb", "-f", "Dockerfile_eb", "."]
+        [
+            "docker",
+            "build",
+            "--build-arg=VERSION=" + os.environ["version"],
+            "-t",
+            "landtech/ci-eb",
+            "-f",
+            "Dockerfile_eb",
+            ".",
+        ]
     )
     docker_id = (
         subprocess.check_output(
@@ -65,4 +75,8 @@ def test_pip_packages(host):
 
 def test_awsebcli(host):
     assert host.run("eb --version").rc == 0
+
+
+def test_awsebcli_version(host):
+    assert host.run(f"eb --version | grep ' {os.environ['version']} '").rc == 0
 
