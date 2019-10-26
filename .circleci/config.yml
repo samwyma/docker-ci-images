@@ -58,7 +58,7 @@ jobs:
           version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
           make eb version=$version
 
-          docker tag landtech/ci-kops landtech/ci-eb:$version
+          docker tag landtech/ci-eb landtech/ci-eb:$version
           docker push landtech/ci-eb
           docker push landtech/ci-eb:$version
 
