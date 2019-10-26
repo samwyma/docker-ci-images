@@ -1,29 +1,29 @@
 FROM alpine:latest as kube
-ENV VERSION="v1.12.10"
+ARG VERSION="v1.12.10"
 RUN apk add wget \
   && wget -q https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
   && chmod +x /usr/local/bin/kubectl
 
 FROM alpine:latest as helm
-ENV VERSION="v2.13.1"
+ARG VERSION="v2.13.1"
 RUN apk add wget \
   && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
 
 FROM alpine:latest as authenticator
-ENV VERSION="1.11.5"
+ARG VERSION="1.11.5"
 RUN apk add wget \
   && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/${VERSION}/2018-12-06/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
   && chmod +x /usr/local/bin/aws-iam-authenticator
 
 FROM alpine:latest as argo
-ENV VERSION="v2.3.0"
+ARG VERSION="v2.3.0"
 RUN apk add wget \
   && wget -q https://github.com/argoproj/argo/releases/download/${VERSION}/argo-linux-amd64 -O /usr/local/bin/argo \
   && chmod +x /usr/local/bin/argo
 
 FROM alpine:latest as render
-ENV RENDER_VERSION=v0.1.3
+ARG RENDER_VERSION=v0.1.3
 RUN apk add curl \
   && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
   && chmod +x /usr/local/bin/render
