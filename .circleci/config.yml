@@ -10,10 +10,10 @@ commands:
     steps:
       - run: |
           apk add --no-cache \
-            coreutils \ # for GNU sort
-            jq \        # querying version.json
+            coreutils \
+            jq \
             make \
-            python3     # run testinfra tests
+            python3
           pip3 install --upgrade pip pipenv
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
