@@ -11,6 +11,7 @@ commands:
       - run: |
           apk add --no-cache \
             coreutils \
+            curl \
             jq \
             make \
             python3
