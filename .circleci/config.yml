@@ -5,36 +5,39 @@ executors:
     docker:
       - image: docker:stable
 
+commands:
+  prerequisites:
+    steps:
+      - run: |
+          apk add --no-cache jq make python3
+          pip3 install --upgrade pip pipenv
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+
 jobs:
   base:
     executor: default
     steps:
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - checkout
+      - prerequisites
       - run: |
-          apk add --no-cache make python3
-          pip3 install --upgrade pip pipenv
-
           make base
 
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
           docker push landtech/ci-base
           docker push landtech/ci-base:$CIRCLE_BUILD_NUM
   kops:
     executor: default
     steps:
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - checkout
+      - prerequisites
       - run: |
-          apk add --no-cache jq make
-
           version="$(jq -r .kops version.json)"
           make kops version=$version
 
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker tag landtech/ci-kops landtech/ci-kops:$version
           docker push landtech/ci-kops
           docker push landtech/ci-kops:$version
@@ -42,17 +45,14 @@ jobs:
   eb:
     executor: default
     steps:
-      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - checkout
+      - prerequisites
       - run: |
-          apk add --no-cache curl jq make python3
-          pip3 install --upgrade pip pipenv
-
           version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
           make eb version=$version
 
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
           docker tag landtech/ci-kops landtech/ci-eb:$version
           docker push landtech/ci-eb
           docker push landtech/ci-eb:$version
