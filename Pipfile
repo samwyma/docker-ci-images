@@ -6,7 +6,3 @@ name = "pypi"
 [dev-packages]
 testinfra = "*"
 pytest = "*"
-black = "*"
-
-[pipenv]
-allow_prereleases = true
