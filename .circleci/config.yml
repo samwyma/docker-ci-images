@@ -32,6 +32,7 @@ jobs:
           docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
           docker push landtech/ci-base
           docker push landtech/ci-base:$CIRCLE_BUILD_NUM
+
   kops:
     executor: default
     steps:
@@ -46,6 +47,28 @@ jobs:
           docker tag landtech/ci-kops landtech/ci-kops:$version
           docker push landtech/ci-kops
           docker push landtech/ci-kops:$version
+
+  node:
+    executor: default
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - prerequisites
+      - run: |
+          make node
+          docker push landtech/ci-node
+
+  kubernetes:
+    executor: default
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - prerequisites
+      - run: |
+          make kubernetes
+          docker push landtech/ci-kubernetes
 
   eb:
     executor: default
@@ -62,34 +85,12 @@ jobs:
           docker push landtech/ci-eb
           docker push landtech/ci-eb:$version
 
-  push:
-    parameters:
-      image-name:
-        description: Name of the docker image
-        type: string
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run: |
-          apk add --no-cache make
-
-          name="<< parameters.image-name >>"
-          make build name=$name
-
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push landtech/ci-$name
-
 workflow_jobs: &workflow_jobs
   jobs:
     - base:
         context: DockerHub
 
-    - push:
-        name: node
-        image-name: node
+    - node:
         context: DockerHub
 
     - eb:
@@ -97,9 +98,7 @@ workflow_jobs: &workflow_jobs
         requires:
           - base
 
-    - push:
-        name: kubernetes
-        image-name: kubernetes
+    - kubernetes:
         context: DockerHub
         requires:
           - node

@@ -20,26 +20,32 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-## Build an image `make build name=kops`
-build:
-	docker build -t landtech/ci-${name} -f Dockerfile_${name} .
 
-## Build the base image
+## build+test the base image
 base:
 	pipenv install -d
-	pipenv run pytest -v Dockerfile_base_test.py
-	docker build \
-		-t landtech/ci-base \
-		-f Dockerfile_base .	
+	pipenv run pytest -v Dockerfile_base_test.py	
 
-## Build the kops image
+## build the kops image
 kops:
 	docker build \
 		--build-arg=VERSION=${version} \
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
-## Build the eb image
+## build the kubernetes image
+node:
+	docker build \
+		-t landtech/ci-kubernetes \
+		-f Dockerfile_kubernetes .
+
+## build the node image
+node:
+	docker build \
+		-t landtech/ci-node \
+		-f Dockerfile_node .
+
+## build+test the eb image
 eb:
 	pipenv install -d
 	pipenv run pytest -v Dockerfile_eb_test.py
