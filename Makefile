@@ -34,7 +34,7 @@ kops:
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
-node:
+kubernetes:
 	docker build \
 		-t landtech/ci-kubernetes \
 		-f Dockerfile_kubernetes .
