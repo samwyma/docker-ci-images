@@ -1,13 +1,14 @@
+
 FROM alpine:latest as kube
-ARG VERSION="v1.13.12"
+ARG KUBECTL_VERSION
 RUN apk add wget \
-  && wget -q https://storage.googleapis.com/kubernetes-release/release/${VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
+  && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
   && chmod +x /usr/local/bin/kubectl
 
 FROM alpine:latest as helm
-ARG VERSION="v2.13.1"
+ARG HELM_VERSION
 RUN apk add wget \
-  && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
+  && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
 
 FROM alpine:latest as authenticator
@@ -17,13 +18,13 @@ RUN apk add wget \
   && chmod +x /usr/local/bin/aws-iam-authenticator
 
 FROM alpine:latest as argo
-ARG VERSION="v2.3.0"
+ARG ARGO_VERSION
 RUN apk add wget \
-  && wget -q https://github.com/argoproj/argo/releases/download/${VERSION}/argo-linux-amd64 -O /usr/local/bin/argo \
+  && wget -q https://github.com/argoproj/argo/releases/download/${ARGO_VERSION}/argo-linux-amd64 -O /usr/local/bin/argo \
   && chmod +x /usr/local/bin/argo
 
 FROM alpine:latest as render
-ARG RENDER_VERSION=v0.1.3
+ARG RENDER_VERSION
 RUN apk add curl \
   && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
   && chmod +x /usr/local/bin/render

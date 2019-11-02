@@ -38,6 +38,10 @@ kops:
 ## build the kubernetes image
 kubernetes:
 	docker build \
+		--build-arg=KUBECTL_VERSION=$(shell cat version.json | jq .kubectl) \
+		--build-arg=HELM_VERSION=$(shell cat version.json | jq .helm) \
+		--build-arg=ARGO_VERSION=$(shell cat version.json | jq .argo) \
+		--build-arg=RENDER_VERSION=$(shell cat version.json | jq .render) \
 		-t landtech/ci-kubernetes \
 		-f Dockerfile_kubernetes .
 
@@ -49,6 +53,7 @@ node:
 
 ## build+test the eb image
 eb:
+	export ${version}
 	pipenv install -d
 	pipenv run pytest -v Dockerfile_eb_test.py
 	docker build \
