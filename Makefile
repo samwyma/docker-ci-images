@@ -53,7 +53,7 @@ node:
 
 ## build+test the eb image
 eb:
-	export ${version}
+	export version=${version}
 	pipenv install -d
 	pipenv run pytest -v Dockerfile_eb_test.py
 	docker build \
