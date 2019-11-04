@@ -31,17 +31,17 @@ base:
 ## build the kops image
 kops:
 	docker build \
-		--build-arg=VERSION=${version} \
+		--build-arg=VERSION=$(shell jq -r .kops version.json) \
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
 kubernetes:
 	docker build \
-		--build-arg=KUBECTL_VERSION=$(shell cat version.json | jq .kubectl) \
-		--build-arg=HELM_VERSION=$(shell cat version.json | jq .helm) \
-		--build-arg=ARGO_VERSION=$(shell cat version.json | jq .argo) \
-		--build-arg=RENDER_VERSION=$(shell cat version.json | jq .render) \
+		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
+		--build-arg=HELM_VERSION=$(shell jq .helm version.json)  \
+		--build-arg=ARGO_VERSION=$(shell jq .argo version.json) \
+		--build-arg=RENDER_VERSION=$(shell jq .render version.json) \
 		-t landtech/ci-kubernetes \
 		-f Dockerfile_kubernetes .
 
