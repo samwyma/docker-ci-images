@@ -130,6 +130,9 @@ workflows:
     triggers:
       - schedule:
           cron: "0 3 * * *"
+          filters:
+            branches:
+              only: master
 
   deploy:
     <<: *workflow_jobs
