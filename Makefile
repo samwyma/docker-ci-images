@@ -56,7 +56,4 @@ eb:
 	export version=${version}
 	pipenv install -d
 	pipenv run pytest -v Dockerfile_eb_test.py
-	docker build \
-		--build-arg=VERSION=${version} \
-		-t landtech/ci-eb \
-		-f Dockerfile_eb .
+
