@@ -57,7 +57,11 @@ jobs:
       - prerequisites
       - run: |
           make node
+
+          version=$(cat Dockerfile_node| head -n 1 | grep -Po "FROM node:\K.+")
+          docker tag landtech/ci-node landtech/ci-node:$version
           docker push landtech/ci-node
+          docker push landtech/ci-node:$version
 
   kubernetes:
     executor: default
