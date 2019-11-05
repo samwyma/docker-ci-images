@@ -58,6 +58,7 @@ jobs:
       - run: |
           make node
 
+          apk add --no-cache grep 
           version=$(cat Dockerfile_node| head -n 1 | grep -Po "FROM node:\K.+")
           docker tag landtech/ci-node landtech/ci-node:$version
           docker push landtech/ci-node
