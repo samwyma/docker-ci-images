@@ -25,13 +25,11 @@ Docker images used for CI, built nightly.
 ## Running Locally
 
 ```bash
-make test
-make build name=base
-make build name=node
+make help
 ...
 ```
 
-### Automated Builds
+### Builds
 
 - Builds run nightly via CircleCI
 - Pushed to our Docker Hub [`landtech`](https://hub.docker.com/u/landtech) organisation
