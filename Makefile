@@ -25,7 +25,7 @@ help:
 
 ## build+test the base image
 base:
-	pipenv install -d
+	pipenv install
 	pipenv run pytest -v Dockerfile_base_test.py	
 
 ## build the kops image
@@ -47,13 +47,12 @@ kubernetes:
 
 ## build the node image
 node:
-	docker build \
-		-t landtech/ci-node \
-		-f Dockerfile_node .
+	pipenv install
+	pipenv run pytest -v Dockerfile_node_test.py
 
 ## build+test the eb image
 eb:
 	export version=${version}
-	pipenv install -d
+	pipenv install
 	pipenv run pytest -v Dockerfile_eb_test.py
 

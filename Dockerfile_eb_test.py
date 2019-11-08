@@ -46,6 +46,7 @@ def host(request):
         ("bash"),
         ("coreutils"),
         ("curl"),
+        ("docker"),
         ("grep"),
         ("jq"),
         ("make"),
@@ -59,10 +60,33 @@ def test_installed_dependencies(host, package):
     assert host.package(package).is_installed
 
 
+@pytest.mark.parametrize(
+    "package",
+    [
+        ("libressl-dev"),
+        ("libc-dev"),
+        ("libffi-dev"),
+        ("gcc"),
+        ("make"),
+        ("python3-dev"),
+    ],
+)
+def test_build_dependencies(host, package):
+    assert host.package(package).is_installed
+
+
 def test_awscli_alias(host):
     assert host.file("/root/.aws/cli/alias").exists
     # run a version command with an alias, fails return code 2
     assert host.run("aws account-id --version").rc == 0
+
+
+def test_docker(host):
+    assert host.run("docker --version").rc == 0
+
+
+def test_bats(host):
+    assert host.run("bats --version").rc == 0
 
 
 def test_pip_packages(host):

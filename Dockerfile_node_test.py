@@ -5,8 +5,10 @@ import testinfra
 
 @pytest.fixture(scope="session")
 def host(request):
+    image = "landtech/ci-node"
+
     subprocess.check_call(
-        ["docker", "build", "-t", "landtech/ci-base", "-f", "Dockerfile_base", "."]
+        ["docker", "build", "-t", image, "-f", "Dockerfile_node", "."]
     )
     docker_id = (
         subprocess.check_output(
@@ -17,7 +19,7 @@ def host(request):
                 "--detach",
                 "--entrypoint=/usr/bin/tail",  # keep the container running while we test it
                 "--tty",
-                "landtech/ci-base",
+                image,
             ]
         )
         .decode()
@@ -84,4 +86,8 @@ def test_pip_packages(host):
     assert "awscli" in packages
     assert "credstash" in packages
     assert "docker-compose" in packages
+
+
+def test_node(host):
+    assert host.run("node --version").rc == 0
 
