@@ -1,6 +1,7 @@
 FROM node:13.1.0-alpine
 
 ENV PATH="./node_modules/.bin:${PATH}"
+ENV SHELL /bin/bash
 
 COPY shared/core_deps.sh core_deps.sh
 RUN ./core_deps.sh && rm core_deps.sh

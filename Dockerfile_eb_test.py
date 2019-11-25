@@ -18,26 +18,17 @@ def host(request):
             ".",
         ]
     )
-    docker_id = (
+    container = (
         subprocess.check_output(
-            [
-                "docker",
-                "run",
-                "--rm",
-                "--detach",
-                "--entrypoint=/usr/bin/tail",  # keep the container running while we test it
-                "--tty",
-                "landtech/ci-eb",
-            ]
+            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-eb"]
         )
         .decode()
         .strip()
     )
 
-    yield testinfra.get_host("docker://" + docker_id)
+    yield testinfra.get_host("docker://" + container)
 
-    # teardown
-    subprocess.check_call(["docker", "rm", "-f", docker_id])
+    subprocess.check_call(["docker", "rm", "-f", container])
 
 
 @pytest.mark.parametrize(
@@ -78,15 +69,15 @@ def test_build_dependencies(host, package):
 def test_awscli_alias(host):
     assert host.file("/root/.aws/cli/alias").exists
     # run a version command with an alias, fails return code 2
-    assert host.run("aws account-id --version").rc == 0
+    assert host.run("aws account-id --version").succeeded
 
 
 def test_docker(host):
-    assert host.run("docker --version").rc == 0
+    assert host.run("docker --version").succeeded
 
 
 def test_bats(host):
-    assert host.run("bats --version").rc == 0
+    assert host.run("bats --version").succeeded
 
 
 def test_pip_packages(host):
@@ -98,9 +89,12 @@ def test_pip_packages(host):
 
 
 def test_awsebcli(host):
-    assert host.run("eb --version").rc == 0
+    assert host.run("eb --version").succeeded
 
 
 def test_awsebcli_version(host):
-    assert host.run(f"eb --version | grep ' {os.environ['version']} '").rc == 0
+    assert host.run(f"eb --version | grep ' {os.environ['version']} '").succeeded
 
+
+def test_entrypoint_is_bash(host):
+    assert host.check_output("echo $SHELL") == "/bin/bash"

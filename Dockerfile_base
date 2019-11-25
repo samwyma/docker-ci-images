@@ -1,4 +1,7 @@
 FROM alpine:latest
 
+ENV SHELL /bin/bash
+
 COPY shared/core_deps.sh .
 RUN ./core_deps.sh && rm core_deps.sh
+
