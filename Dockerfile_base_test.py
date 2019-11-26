@@ -31,6 +31,7 @@ def host(request):
         ("grep"),
         ("jq"),
         ("make"),
+        ("ncurses"),
         ("tar"),
         ("wget"),
         ("zip"),

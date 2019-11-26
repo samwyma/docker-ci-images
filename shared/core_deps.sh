@@ -18,6 +18,7 @@ apk add --no-cache \
   grep \
   jq \
   make \
+  ncurses \
   tar \
   wget \
   zip \
