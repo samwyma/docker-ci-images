@@ -19,6 +19,17 @@ commands:
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
 jobs:
+  shared_tests:
+    executor: default
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - checkout
+      - run: |
+          apk add --no-cache \
+            bats
+          ./test.sh
+
   base:
     executor: default
     steps:
@@ -87,11 +98,18 @@ jobs:
 
 workflow_jobs: &workflow_jobs
   jobs:
+    - shared_tests:
+        context: DockerHub
+
     - base:
         context: DockerHub
+        requires:
+          - shared_tests
 
     - node:
         context: DockerHub
+        requires:
+          - shared_tests
 
     - eb:
         context: DockerHub
