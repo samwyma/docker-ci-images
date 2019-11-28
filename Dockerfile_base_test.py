@@ -61,3 +61,5 @@ def test_pip_packages(host):
     assert "credstash" in packages
     assert "docker-compose" in packages
 
+def test_semver_exists(host):
+    assert host.run("./semver.sh --help").rc == 0
