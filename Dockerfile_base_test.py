@@ -8,26 +8,17 @@ def host(request):
     subprocess.check_call(
         ["docker", "build", "-t", "landtech/ci-base", "-f", "Dockerfile_base", "."]
     )
-    docker_id = (
+    container = (
         subprocess.check_output(
-            [
-                "docker",
-                "run",
-                "--rm",
-                "--detach",
-                "--entrypoint=/usr/bin/tail",  # keep the container running while we test it
-                "--tty",
-                "landtech/ci-base",
-            ]
+            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-base"]
         )
         .decode()
         .strip()
     )
 
-    yield testinfra.get_host("docker://" + docker_id)
+    yield testinfra.get_host("docker://" + container)
 
-    # teardown
-    subprocess.check_call(["docker", "rm", "-f", docker_id])
+    subprocess.check_call(["docker", "rm", "-f", container])
 
 
 @pytest.mark.parametrize(
@@ -36,9 +27,11 @@ def host(request):
         ("bash"),
         ("coreutils"),
         ("curl"),
+        ("docker"),
         ("grep"),
         ("jq"),
         ("make"),
+        ("ncurses"),
         ("tar"),
         ("wget"),
         ("zip"),
@@ -49,10 +42,33 @@ def test_installed_dependencies(host, package):
     assert host.package(package).is_installed
 
 
+@pytest.mark.parametrize(
+    "package",
+    [
+        ("libressl-dev"),
+        ("libc-dev"),
+        ("libffi-dev"),
+        ("gcc"),
+        ("make"),
+        ("python3-dev"),
+    ],
+)
+def test_build_dependencies(host, package):
+    assert host.package(package).is_installed
+
+
 def test_awscli_alias(host):
     assert host.file("/root/.aws/cli/alias").exists
     # run a version command with an alias, fails return code 2
-    assert host.run("aws account-id --version").rc == 0
+    assert host.run("aws account-id --version").succeeded
+
+
+def test_docker(host):
+    assert host.run("docker --version").succeeded
+
+
+def test_bats(host):
+    assert host.run("bats --version").succeeded
 
 
 def test_pip_packages(host):
@@ -63,3 +79,6 @@ def test_pip_packages(host):
 
 def test_semver_exists(host):
     assert host.run("./semver.sh --help").rc == 0
+
+def test_entrypoint_is_bash(host):
+    assert host.check_output("echo $SHELL") == "/bin/bash"

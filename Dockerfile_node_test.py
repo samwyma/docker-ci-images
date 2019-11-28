@@ -1,4 +1,3 @@
-import os
 import pytest
 import subprocess
 import testinfra
@@ -6,22 +5,13 @@ import testinfra
 
 @pytest.fixture(scope="session")
 def host(request):
+    image = "landtech/ci-node"
+
     subprocess.check_call(
-        [
-            "docker",
-            "build",
-            "--build-arg=VERSION=" + os.environ["version"],
-            "-t",
-            "landtech/ci-eb",
-            "-f",
-            "Dockerfile_eb",
-            ".",
-        ]
+        ["docker", "build", "-t", image, "-f", "Dockerfile_node", "."]
     )
     container = (
-        subprocess.check_output(
-            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-eb"]
-        )
+        subprocess.check_output(["docker", "run", "--rm", "--detach", "--tty", image])
         .decode()
         .strip()
     )
@@ -84,17 +74,12 @@ def test_bats(host):
 def test_pip_packages(host):
     packages = host.pip_package.get_packages()
     assert "awscli" in packages
-    assert "awsebcli" in packages
     assert "credstash" in packages
     assert "docker-compose" in packages
 
 
-def test_awsebcli(host):
-    assert host.run("eb --version").succeeded
-
-
-def test_awsebcli_version(host):
-    assert host.run(f"eb --version | grep ' {os.environ['version']} '").succeeded
+def test_node(host):
+    assert host.run("node --version").succeeded
 
 
 def test_entrypoint_is_bash(host):

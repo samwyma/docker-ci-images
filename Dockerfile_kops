@@ -15,3 +15,5 @@ FROM landtech/ci-kubernetes:latest
 COPY --from=kops /usr/local/bin/kops /usr/local/bin
 COPY --from=golang /go/bin /usr/local/bin
 RUN pip install yq
+ENV SHELL /bin/bash
+

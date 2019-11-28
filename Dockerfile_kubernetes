@@ -38,6 +38,7 @@ COPY --from=render /usr/local/bin/render /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 ENV AWS_DEFAULT_REGION=eu-west-1
+ENV SHELL /bin/bash
 
 RUN apk add --no-cache \
   openssh \
@@ -45,3 +46,4 @@ RUN apk add --no-cache \
   && pip install yq \
   # Init helm client
   && helm init --client-only
+

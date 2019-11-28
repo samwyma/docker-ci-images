@@ -14,9 +14,11 @@ apk add --no-cache \
   bash \
   coreutils \
   curl \
+  docker \
   grep \
   jq \
   make \
+  ncurses \
   tar \
   wget \
   zip \

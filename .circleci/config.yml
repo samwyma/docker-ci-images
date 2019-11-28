@@ -12,6 +12,7 @@ commands:
           apk add --no-cache \
             coreutils \
             curl \
+            grep \
             jq \
             make \
             python3
@@ -40,9 +41,11 @@ jobs:
       - run: |
           make base
 
-          docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
-          docker push landtech/ci-base
-          docker push landtech/ci-base:$CIRCLE_BUILD_NUM
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
+            docker push landtech/ci-base
+            docker push landtech/ci-base:$CIRCLE_BUILD_NUM
+          fi
 
   kops:
     executor: default
@@ -55,9 +58,11 @@ jobs:
           version="$(jq -r .kops version.json)"
           make kops version=$version
 
-          docker tag landtech/ci-kops landtech/ci-kops:$version
-          docker push landtech/ci-kops
-          docker push landtech/ci-kops:$version
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            docker tag landtech/ci-kops landtech/ci-kops:$version
+            docker push landtech/ci-kops
+            docker push landtech/ci-kops:$version
+          fi
 
   node:
     executor: default
@@ -68,7 +73,13 @@ jobs:
       - prerequisites
       - run: |
           make node
-          docker push landtech/ci-node
+
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            version=$(cat Dockerfile_node| head -n 1 | grep -Po "FROM node:\K.+")
+            docker tag landtech/ci-node landtech/ci-node:$version
+            docker push landtech/ci-node
+            docker push landtech/ci-node:$version
+          fi
 
   kubernetes:
     executor: default
@@ -79,7 +90,10 @@ jobs:
       - prerequisites
       - run: |
           make kubernetes
-          docker push landtech/ci-kubernetes
+
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            docker push landtech/ci-kubernetes
+          fi
 
   eb:
     executor: default
@@ -92,9 +106,11 @@ jobs:
           version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
           make eb version=$version
 
-          docker tag landtech/ci-eb landtech/ci-eb:$version
-          docker push landtech/ci-eb
-          docker push landtech/ci-eb:$version
+          if [ "$CIRCLE_BRANCH" == "master" ]; then
+            docker tag landtech/ci-eb landtech/ci-eb:$version
+            docker push landtech/ci-eb
+            docker push landtech/ci-eb:$version
+          fi
 
 workflow_jobs: &workflow_jobs
   jobs:

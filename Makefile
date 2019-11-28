@@ -25,38 +25,34 @@ help:
 
 ## build+test the base image
 base:
-	pipenv install -d
+	pipenv install
 	pipenv run pytest -v Dockerfile_base_test.py	
 
 ## build the kops image
 kops:
 	docker build \
-		--build-arg=VERSION=${version} \
+		--build-arg=VERSION=$(shell jq -r .kops version.json) \
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
 kubernetes:
 	docker build \
-		--build-arg=KUBECTL_VERSION=$(shell cat version.json | jq .kubectl) \
-		--build-arg=HELM_VERSION=$(shell cat version.json | jq .helm) \
-		--build-arg=ARGO_VERSION=$(shell cat version.json | jq .argo) \
-		--build-arg=RENDER_VERSION=$(shell cat version.json | jq .render) \
+		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
+		--build-arg=HELM_VERSION=$(shell jq .helm version.json)  \
+		--build-arg=ARGO_VERSION=$(shell jq .argo version.json) \
+		--build-arg=RENDER_VERSION=$(shell jq .render version.json) \
 		-t landtech/ci-kubernetes \
 		-f Dockerfile_kubernetes .
 
 ## build the node image
 node:
-	docker build \
-		-t landtech/ci-node \
-		-f Dockerfile_node .
+	pipenv install
+	pipenv run pytest -v Dockerfile_node_test.py
 
 ## build+test the eb image
 eb:
-	export ${version}
-	pipenv install -d
+	export version=${version}
+	pipenv install
 	pipenv run pytest -v Dockerfile_eb_test.py
-	docker build \
-		--build-arg=VERSION=${version} \
-		-t landtech/ci-eb \
-		-f Dockerfile_eb .
+

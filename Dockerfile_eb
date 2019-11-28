@@ -1,5 +1,6 @@
 FROM landtech/ci-base
 
 ARG VERSION
+ENV SHELL /bin/bash
 
 RUN pip3 install awsebcli==$VERSION
