@@ -78,7 +78,7 @@ def test_pip_packages(host):
     assert "docker-compose" in packages
 
 def test_semver_exists(host):
-    assert host.run("./semver.sh --help").rc == 0
+    assert host.run("semver.sh --help").rc == 0
 
 def test_entrypoint_is_bash(host):
     assert host.check_output("echo $SHELL") == "/bin/bash"
