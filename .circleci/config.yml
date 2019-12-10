@@ -143,11 +143,11 @@ workflow_jobs: &workflow_jobs
           - kubernetes
 
 workflows:
-  nightly:
+  weekly:
     <<: *workflow_jobs
     triggers:
       - schedule:
-          cron: "0 3 * * *"
+          cron: "0 8 * * 1"
           filters:
             branches:
               only: master
