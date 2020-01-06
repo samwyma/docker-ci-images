@@ -6,7 +6,7 @@ import testinfra
 @pytest.fixture(scope="session")
 def host(request):
     subprocess.check_call(
-        ["docker", "build", "-t", "landtech/ci-base", "-f", "Dockerfile_base", "."]
+        ["docker", "build", "--no-cache", "-t", "landtech/ci-base", "-f", "Dockerfile_base", "."]
     )
     container = (
         subprocess.check_output(
