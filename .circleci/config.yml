@@ -56,6 +56,7 @@ jobs:
       - prerequisites
       - run: |
           version="$(jq -r .kops version.json)"
+          make kubernetes
           make kops version=$version
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
@@ -89,6 +90,7 @@ jobs:
       - checkout
       - prerequisites
       - run: |
+          make node
           make kubernetes
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
@@ -104,6 +106,7 @@ jobs:
       - prerequisites
       - run: |
           version="$(curl -s --retry 5 --retry-delay 5 https://pypi.org/pypi/awsebcli/json | jq -r '.releases | keys[]' | sort --version-sort | tail -n 1)"
+          make base
           make eb version=$version
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
