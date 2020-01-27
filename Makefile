@@ -29,14 +29,14 @@ base:
 	pipenv run pytest -v Dockerfile_base_test.py	
 
 ## build the kops image
-kops:
+kops: kubernetes
 	docker build \
 		--build-arg=VERSION=$(shell jq -r .kops version.json) \
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
-kubernetes:
+kubernetes: base
 	docker build \
 		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
 		--build-arg=HELM_VERSION=$(shell jq .helm version.json)  \
@@ -51,7 +51,7 @@ node:
 	pipenv run pytest -v Dockerfile_node_test.py
 
 ## build+test the eb image
-eb:
+eb: base
 	export version=${version}
 	pipenv install
 	pipenv run pytest -v Dockerfile_eb_test.py
