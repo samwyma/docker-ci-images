@@ -17,6 +17,7 @@ apk add --no-cache \
   docker \
   grep \
   jq \
+  lsof \
   make \
   ncurses \
   tar \

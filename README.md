@@ -15,6 +15,7 @@ Docker images used for CI, built nightly.
 - `git`
 - `grep`
 - `jq`
+- `lsof`
 - `make`
 - `python3` [`awscli`, `pipenv`, `credstash`]
 - `tar`
