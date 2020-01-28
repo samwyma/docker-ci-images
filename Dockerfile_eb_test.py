@@ -40,6 +40,7 @@ def host(request):
         ("docker"),
         ("grep"),
         ("jq"),
+        ("lsof"),
         ("make"),
         ("ncurses"),
         ("tar"),

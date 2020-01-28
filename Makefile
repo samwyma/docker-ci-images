@@ -31,13 +31,15 @@ base:
 ## build the kops image
 kops: kubernetes
 	docker build \
+		--no-cache \
 		--build-arg=VERSION=$(shell jq -r .kops version.json) \
 		-t landtech/ci-kops \
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
-kubernetes: base
+kubernetes: node
 	docker build \
+		--no-cache \
 		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
 		--build-arg=HELM_VERSION=$(shell jq .helm version.json)  \
 		--build-arg=ARGO_VERSION=$(shell jq .argo version.json) \
