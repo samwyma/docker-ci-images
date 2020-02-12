@@ -52,7 +52,7 @@ node:
 	pipenv install
 	pipenv run pytest -v Dockerfile_node_test.py
 
-## build+test the eb image
+## build+test the eb image, eg make eb version=3.17.1
 eb: base
 	export version=${version}
 	pipenv install
