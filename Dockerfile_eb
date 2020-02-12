@@ -1,6 +1,10 @@
-FROM landtech/ci-base
+FROM alpine:3.11.3
 
 ARG VERSION
 ENV SHELL /bin/bash
 
-RUN pip3 install awsebcli==$VERSION
+COPY shared/semver.sh /usr/local/bin
+COPY shared/core_deps.sh .
+RUN ./core_deps.sh \
+    && rm core_deps.sh \
+    && pip3 install awsebcli==$VERSION
