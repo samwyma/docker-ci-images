@@ -22,6 +22,9 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
+## test semver script
+test_semver:
+	cd shared && bats ./tests
 
 ## build+test the base image
 base:
