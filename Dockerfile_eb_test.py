@@ -70,7 +70,7 @@ def test_build_dependencies(host, package):
 
 def test_awscli_alias(host):
     assert host.file("/root/.aws/cli/alias").exists
-    # run a version command with an alias, fails return code 2
+    # run a version command with an alias, a fail will return code 2
     assert host.run("aws account-id --version").succeeded
 
 
@@ -88,6 +88,7 @@ def test_pip_packages(host):
     assert "awsebcli" in packages
     assert "credstash" in packages
     assert "docker-compose" in packages
+    assert "pipenv" in packages
 
 
 def test_awsebcli(host):
@@ -96,6 +97,10 @@ def test_awsebcli(host):
 
 def test_awsebcli_version(host):
     assert host.run(f"eb --version | grep ' {os.environ['version']} '").succeeded
+
+
+def test_semver_exists(host):
+    assert host.run("semver.sh --help").succeeded
 
 
 def test_entrypoint_is_bash(host):
