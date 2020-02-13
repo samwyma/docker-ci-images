@@ -10,7 +10,7 @@ commands:
     steps:
       - run: |
           apk add --no-cache \
-            bats
+            bats \
             coreutils \
             curl \
             grep \
