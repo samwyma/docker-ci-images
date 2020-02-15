@@ -12,9 +12,9 @@ RUN apk add wget \
   && chmod +x /usr/local/bin/helm
 
 FROM alpine:3.11.3 as authenticator
-ARG VERSION="1.11.5"
+ARG AWS_IAM_AUTHENTICATOR_VERSION
 RUN apk add wget \
-  && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/${VERSION}/2018-12-06/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
+  && wget -q https://amazon-eks.s3-us-west-2.amazonaws.com/${AWS_IAM_AUTHENTICATOR_VERSION}/bin/linux/amd64/aws-iam-authenticator -O /usr/local/bin/aws-iam-authenticator \
   && chmod +x /usr/local/bin/aws-iam-authenticator
 
 FROM alpine:3.11.3 as argo

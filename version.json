@@ -3,5 +3,6 @@
   "kops": "1.14.0",
   "helm": "v2.16.1",
   "argo": "v2.4.3",
-  "render": "v0.1.7"
+  "render": "v0.1.7",
+  "aws_iam_authenticator": "1.12.10/2019-08-14"
 }

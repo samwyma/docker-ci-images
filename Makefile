@@ -40,11 +40,12 @@ kops: kubernetes
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
-kubernetes: node
+kubernetes:
 	docker build \
 		--no-cache \
 		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
-		--build-arg=HELM_VERSION=$(shell jq .helm version.json)  \
+		--build-arg=HELM_VERSION=$(shell jq .helm version.json) \
+		--build-arg=AWS_IAM_AUTHENTICATOR_VERSION=$(shell jq .aws_iam_authenticator version.json) \
 		--build-arg=ARGO_VERSION=$(shell jq .argo version.json) \
 		--build-arg=RENDER_VERSION=$(shell jq .render version.json) \
 		-t landtech/ci-kubernetes \

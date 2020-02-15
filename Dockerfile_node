@@ -3,6 +3,6 @@ FROM node:13.8.0-alpine
 ENV PATH="./node_modules/.bin:${PATH}"
 ENV SHELL /bin/bash
 
-COPY shared/semver.sh .
-COPY shared/core_deps.sh core_deps.sh
+COPY shared/semver.sh /usr/local/bin
+COPY shared/core_deps.sh .
 RUN ./core_deps.sh && rm core_deps.sh
