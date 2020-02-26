@@ -109,7 +109,7 @@ def test_semver_exists(host):
 def test_deployment_exists(host):
     assert host.run("command -v deployment").succeeded
     assert host.run("timeout --help").succeeded
-    assert host.run("nc --help").succeeded
+    assert host.run("command -v nc").succeeded
 
 
 def test_entrypoint_is_bash(host):
