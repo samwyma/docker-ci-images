@@ -42,6 +42,7 @@ def host(request):
         ("jq"),
         ("lsof"),
         ("make"),
+        ("netcat-openbsd"),
         ("ncurses"),
         ("tar"),
         ("wget"),
@@ -101,6 +102,12 @@ def test_awsebcli_version(host):
 
 def test_semver_exists(host):
     assert host.run("semver.sh --help").succeeded
+
+
+def test_deployment_exists(host):
+    assert host.run("command -v deployment").succeeded
+    assert host.run("timeout --help").succeeded
+    assert host.run("nc --help").succeeded
 
 
 def test_entrypoint_is_bash(host):

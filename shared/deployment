@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# usage:
+# deployment foo.myhost.com 26000 '{ "message": "deployed!" }'
+
+host=$1
+port=$2
+payload=$3
+
+timeout 2 nc "$host" "$port" <<<"$payload"

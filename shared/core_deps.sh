@@ -19,6 +19,7 @@ apk add --no-cache \
   jq \
   lsof \
   make \
+  netcat-openbsd \
   ncurses \
   tar \
   wget \
