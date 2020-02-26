@@ -129,17 +129,17 @@ workflow_jobs: &workflow_jobs
     - eb:
         context: DockerHub
         requires:
-          - base
+          - shared_tests
 
     - kubernetes:
         context: DockerHub
         requires:
-          - node
+          - shared_tests
 
     - kops:
         context: DockerHub
         requires:
-          - kubernetes
+          - shared_tests
 
 workflows:
   weekly:
