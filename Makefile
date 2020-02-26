@@ -40,7 +40,7 @@ kops: kubernetes
 		-f Dockerfile_kops .
 
 ## build the kubernetes image
-kubernetes:
+kubernetes: node
 	docker build \
 		--no-cache \
 		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
