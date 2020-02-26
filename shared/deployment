@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # usage:
-# deployment foo.myhost.com 26000 '{ "message": "deployed!" }'
+# deployment foo.myhost.com 26000 "my-app-name"
 
 host=$1
 port=$2
-payload=$3
+app=$3
+payload="{ \"app\": \"$app\", \"tags\": \"deployment\" }"
 
 timeout 2 nc "$host" "$port" <<<"$payload"
