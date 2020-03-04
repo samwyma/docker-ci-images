@@ -33,11 +33,8 @@ base:
 
 ## build the kops image
 kops: kubernetes
-	docker build \
-		--no-cache \
-		--build-arg=VERSION=$(shell jq -r .kops version.json) \
-		-t landtech/ci-kops \
-		-f Dockerfile_kops .
+	pipenv install
+	pipenv run pytest -v Dockerfile_kops_test.py
 
 ## build the kubernetes image
 kubernetes: node

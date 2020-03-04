@@ -54,10 +54,10 @@ jobs:
       - checkout
       - prerequisites
       - run: |
-          version="$(jq -r .kops version.json)"
-          make kops version=$version
+          make kops
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
+            version="$(jq -r .kops version.json)"
             docker tag landtech/ci-kops landtech/ci-kops:$version
             docker push landtech/ci-kops
             docker push landtech/ci-kops:$version
