@@ -4,12 +4,12 @@ import subprocess
 import testinfra
 import json
 
+with open("version.json") as file:
+    version = json.load(file)["kops"]
+
 
 @pytest.fixture(scope="session")
 def host(request):
-    with open("version.json") as file:
-        version = json.load(file)["kops"]
-
     subprocess.check_call(
         [
             "docker",
@@ -40,4 +40,4 @@ def test_kops_exists(host):
 
 
 def test_kops_version(host):
-    assert host.check_output("kops version --short") == "1.15.2"
+    assert "v" + host.check_output("kops version --short") == version
