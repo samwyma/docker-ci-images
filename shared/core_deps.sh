@@ -50,9 +50,9 @@ pip3 install --upgrade \
 # assert
 curl --fail -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
 
-# bats
-git clone https://github.com/sstephenson/bats.git
-cd bats
+# bats-core
+git clone https://github.com/bats-core/bats-core.git
+cd bats-core
 ./install.sh /usr/local
 cd ../
-rm -Rf bats
+rm -Rf bats-core
