@@ -37,13 +37,16 @@ COPY --from=argo /usr/local/bin/argo /usr/local/bin
 COPY --from=render /usr/local/bin/render /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
-ENV AWS_DEFAULT_REGION=eu-west-1
 ENV SHELL /bin/bash
 
-RUN apk add --no-cache \
-  openssh \
-  # yq
-  && pip install yq \
-  # Init helm client
-  && helm init --client-only
+RUN apk update \
+  && apk add --no-cache openssh \
+  && pip install --upgrade yq \
+  # init helm client
+  && helm init --client-only \
+  # kubectl aliases
+  && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aliases/k8_cluster_domain \
+  && chmod +x /usr/local/bin/k8_cluster_domain \
+  && curl --fail -s -o /usr/local/bin/k8_cluster_name https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aliases/k8_cluster_name \
+  && chmod +x /usr/local/bin/k8_cluster_name
 
