@@ -38,15 +38,8 @@ kops: kubernetes
 
 ## build the kubernetes image
 kubernetes: node
-	docker build \
-		--no-cache \
-		--build-arg=KUBECTL_VERSION=$(shell jq .kubectl version.json) \
-		--build-arg=HELM_VERSION=$(shell jq .helm version.json) \
-		--build-arg=AWS_IAM_AUTHENTICATOR_VERSION=$(shell jq .aws_iam_authenticator version.json) \
-		--build-arg=ARGO_VERSION=$(shell jq .argo version.json) \
-		--build-arg=RENDER_VERSION=$(shell jq .render version.json) \
-		-t landtech/ci-kubernetes \
-		-f Dockerfile_kubernetes .
+	pipenv install
+	pipenv run pytest -v Dockerfile_kubernetes_test.py
 
 ## build the node image
 node:

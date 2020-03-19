@@ -29,12 +29,15 @@ RUN apk add curl \
   && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
   && chmod +x /usr/local/bin/render
 
+FROM dnanexus/promtool:2.9.2 as prometheus
+
 FROM landtech/ci-node:latest
 COPY --from=kube /usr/local/bin/kubectl /usr/local/bin
 COPY --from=helm /usr/local/bin/helm /usr/local/bin
 COPY --from=authenticator /usr/local/bin/aws-iam-authenticator /usr/local/bin
 COPY --from=argo /usr/local/bin/argo /usr/local/bin
 COPY --from=render /usr/local/bin/render /usr/local/bin
+COPY --from=prometheus /bin/promtool /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 ENV SHELL /bin/bash
