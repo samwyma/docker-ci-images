@@ -44,6 +44,7 @@ def host(request):
         ("make"),
         ("netcat-openbsd"),
         ("ncurses"),
+        ("rsync"),
         ("tar"),
         ("wget"),
         ("zip"),

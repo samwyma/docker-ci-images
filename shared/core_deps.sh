@@ -21,6 +21,7 @@ apk add --no-cache \
   make \
   netcat-openbsd \
   ncurses \
+  rsync \
   tar \
   wget \
   zip \
