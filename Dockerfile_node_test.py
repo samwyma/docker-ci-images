@@ -8,7 +8,7 @@ def host(request):
     image = "landtech/ci-node"
 
     subprocess.check_call(
-        ["docker", "build", "--no-cache", "-t", image, "-f", "Dockerfile_node", "."]
+        ["docker", "build", "-t", image, "-f", "Dockerfile_node", "."]
     )
     container = (
         subprocess.check_output(["docker", "run", "--rm", "--detach", "--tty", image])

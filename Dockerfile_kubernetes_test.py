@@ -19,7 +19,6 @@ def host(request):
         [
             "docker",
             "build",
-            "--no-cache",
             "--build-arg=KUBECTL_VERSION=" + kubectl_version,
             "--build-arg=HELM_VERSION=" + helm_version,
             "--build-arg=AWS_IAM_AUTHENTICATOR_VERSION=" + aws_iam_auth_version,
