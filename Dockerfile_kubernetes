@@ -8,7 +8,7 @@ RUN apk add wget \
 FROM alpine:3.11.3 as helm
 ARG HELM_VERSION
 RUN apk add wget \
-  && wget -q https://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
+  && wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
 
 FROM alpine:3.11.3 as authenticator
@@ -48,8 +48,8 @@ RUN apk update \
   # init helm client
   && helm init --client-only \
   # kubectl aliases
-  && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aliases/k8_cluster_domain \
+  && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/bin/k8_cluster_domain \
   && chmod +x /usr/local/bin/k8_cluster_domain \
-  && curl --fail -s -o /usr/local/bin/k8_cluster_name https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aliases/k8_cluster_name \
+  && curl --fail -s -o /usr/local/bin/k8_cluster_name https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/bin/k8_cluster_name \
   && chmod +x /usr/local/bin/k8_cluster_name
 
