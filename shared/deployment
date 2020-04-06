@@ -6,6 +6,6 @@
 host=$1
 port=$2
 app=$3
-payload="{ \"app\": \"$app\", \"tags\": \"deployment\" }"
+payload="{ \"app\": \"$app\", \"index\": \"deployments\" }"
 
 timeout 2 nc "$host" "$port" <<<"$payload"
