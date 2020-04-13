@@ -24,8 +24,7 @@ jobs:
   shared_tests:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: make test_semver
@@ -33,8 +32,7 @@ jobs:
   base:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: |
@@ -49,8 +47,7 @@ jobs:
   kops:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: |
@@ -66,8 +63,7 @@ jobs:
   node:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: |
@@ -83,8 +79,7 @@ jobs:
   kubernetes:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: |
@@ -97,8 +92,7 @@ jobs:
   eb:
     executor: default
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - checkout
       - prerequisites
       - run: |
