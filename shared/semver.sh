@@ -11,8 +11,10 @@ Modes:
   major : Increments major version
   minor : Increments minor version
   patch : Increments patch version
+  beta : Increments beta version (e.g. 1.0.0-beta.1)
 
 Options:
+  -b          : Set custom beta tag (when incrementing beta version)
   -i          : Modify version file in place 
   -h, --help  : Display this help message
   "
