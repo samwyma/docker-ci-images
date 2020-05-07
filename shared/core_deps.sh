@@ -16,6 +16,7 @@ apk add --no-cache \
   curl \
   docker \
   grep \
+  iproute2 \
   jq \
   lsof \
   make \
