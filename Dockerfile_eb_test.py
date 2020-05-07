@@ -39,6 +39,7 @@ def host(request):
         ("curl"),
         ("docker"),
         ("grep"),
+        ("iproute2"),
         ("jq"),
         ("lsof"),
         ("make"),
