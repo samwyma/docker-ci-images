@@ -27,7 +27,6 @@ def host(request):
         ("bash"),
         ("coreutils"),
         ("curl"),
-        ("docker"),
         ("grep"),
         ("jq"),
         ("lsof"),
