@@ -16,7 +16,6 @@ apk add --no-cache \
   ca-certificates \
   coreutils \
   curl \
-  docker \
   git \
   grep \
   jq \
@@ -42,8 +41,9 @@ curl --fail -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtec
 pip3 install --upgrade --no-cache-dir \
   pip \
   pipenv \
+  credstash \
   docker-compose \
-  credstash
+  yq
 
 # bats-core
 git clone https://github.com/bats-core/bats-core.git

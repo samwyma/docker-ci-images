@@ -1,4 +1,4 @@
-FROM alpine:3.11.3
+FROM docker:stable
 
 ARG VERSION
 ENV SHELL /bin/bash

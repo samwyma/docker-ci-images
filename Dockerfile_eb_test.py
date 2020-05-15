@@ -76,6 +76,7 @@ def test_pip_packages(host):
     assert "credstash" in packages
     assert "docker-compose" in packages
     assert "pipenv" in packages
+    assert "yq" in packages
 
 
 def test_awsebcli(host):

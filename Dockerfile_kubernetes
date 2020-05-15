@@ -40,11 +40,8 @@ COPY --from=render /usr/local/bin/render /usr/local/bin
 COPY --from=prometheus /bin/promtool /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
-ENV SHELL /bin/bash
-
 RUN apk update \
   && apk add --no-cache openssh \
-  && pip install --upgrade yq \
   # init helm client
   && helm init --client-only \
   # kubectl aliases
