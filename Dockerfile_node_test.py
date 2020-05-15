@@ -45,21 +45,6 @@ def test_installed_dependencies(host, package):
     assert host.package(package).is_installed
 
 
-@pytest.mark.parametrize(
-    "package",
-    [
-        ("libressl-dev"),
-        ("libc-dev"),
-        ("libffi-dev"),
-        ("gcc"),
-        ("make"),
-        ("python3-dev"),
-    ],
-)
-def test_build_dependencies(host, package):
-    assert host.package(package).is_installed
-
-
 def test_awscli_alias(host):
     assert host.file("/root/.aws/cli/alias").exists
     # run a version command with an alias, a fail will return code 2

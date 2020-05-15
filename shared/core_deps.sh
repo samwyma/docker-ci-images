@@ -2,54 +2,48 @@
 
 set -e
 
-# core
-apk add --no-cache \
-  ca-certificates \
-  git \
-  openssh-client \
-  python3
+# build dependencies
+apk add --no-cache --virtual=dependencies \
+  libressl-dev \
+  libc-dev \
+  libffi-dev \
+  gcc \
+  python3-dev
 
-# tools
+# packages
 apk add --no-cache \
   bash \
+  ca-certificates \
   coreutils \
   curl \
   docker \
+  git \
   grep \
   jq \
   lsof \
   make \
   netcat-openbsd \
   ncurses \
+  openssh-client \
+  python3 \
   rsync \
   tar \
   wget \
   zip \
   util-linux
 
-# build
-apk add --no-cache \
-  libressl-dev \
-  libc-dev \
-  libffi-dev \
-  gcc \
-  make \
-  python3-dev
-
 # aws cli
-pip3 install --upgrade awscli
+pip3 install --upgrade --no-cache-dir \
+  awscli
 mkdir -p /root/.aws/cli
 curl --fail -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
 
 # pip
-pip3 install --upgrade \
+pip3 install --upgrade --no-cache-dir \
   pip \
   pipenv \
   docker-compose \
   credstash
-
-# assert
-curl --fail -o /usr/local/bin/assert.sh https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
 
 # bats-core
 git clone https://github.com/bats-core/bats-core.git
@@ -57,3 +51,7 @@ cd bats-core
 ./install.sh /usr/local
 cd ../
 rm -Rf bats-core
+
+# clean up
+apk del --purge dependencies
+rm -rf /tmp/* /var/cache/apk/*
