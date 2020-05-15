@@ -19,6 +19,7 @@ apk add --no-cache \
   git \
   grep \
   jq \
+  libressl \
   lsof \
   make \
   netcat-openbsd \

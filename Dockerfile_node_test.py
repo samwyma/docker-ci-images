@@ -31,6 +31,7 @@ def host(request):
         ("grep"),
         ("jq"),
         ("lsof"),
+        ("libressl"),
         ("make"),
         ("netcat-openbsd"),
         ("ncurses"),
