@@ -54,5 +54,4 @@ cd ../
 rm -Rf bats-core
 
 # clean up
-apk del --purge dependencies
 rm -rf /tmp/* /var/cache/apk/*
