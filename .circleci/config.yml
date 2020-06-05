@@ -113,11 +113,6 @@ workflow_jobs: &workflow_jobs
         requires:
           - shared_tests
 
-    - eb:
-        context: DockerHub
-        requires:
-          - shared_tests
-
     - kubernetes:
         context: DockerHub
         requires:
