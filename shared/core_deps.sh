@@ -26,6 +26,7 @@ apk add --no-cache \
   ncurses \
   openssh-client \
   python3 \
+  py3-pip \
   rsync \
   tar \
   wget \
