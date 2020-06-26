@@ -37,9 +37,10 @@ def host(request):
         ("ncurses"),
         ("rsync"),
         ("tar"),
-        ("wget"),
-        ("zip"),
         ("util-linux"),
+        ("wget"),
+        ("yarn"),
+        ("zip"),
     ],
 )
 def test_installed_dependencies(host, package):
