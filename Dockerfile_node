@@ -8,4 +8,6 @@ COPY shared/core_deps.sh .
 
 RUN ./core_deps.sh \
     && rm core_deps.sh \
-    && apk add --no-cache docker 
+    && apk add --no-cache \
+        docker \
+        yarn
