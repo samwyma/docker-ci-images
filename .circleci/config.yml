@@ -3,7 +3,7 @@ version: 2.1
 executors:
   default:
     docker:
-      - image: docker:stable
+      - image: alpine:latest
 
 commands:
   prerequisites:
@@ -13,6 +13,7 @@ commands:
             bats \
             coreutils \
             curl \
+            docker \
             grep \
             jq \
             make \
