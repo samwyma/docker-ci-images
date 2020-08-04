@@ -19,7 +19,6 @@ commands:
             make \
             python3 \
             py3-pip
-          pip3 install --upgrade pip pipenv
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
 jobs:
