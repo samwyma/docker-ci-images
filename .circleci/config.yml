@@ -17,7 +17,7 @@ commands:
             grep \
             jq \
             make \
-          pip3 install --upgrade pip pipenv
+          pip install --upgrade pip pipenv
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
 jobs:
