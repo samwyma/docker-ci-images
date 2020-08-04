@@ -16,7 +16,7 @@ commands:
             docker \
             grep \
             jq \
-            make \
+            make
           pip install --upgrade pip pipenv
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
 
