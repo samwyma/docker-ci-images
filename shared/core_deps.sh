@@ -16,6 +16,7 @@ apk add --no-cache \
   ca-certificates \
   coreutils \
   curl \
+  docker \
   git \
   grep \
   jq \

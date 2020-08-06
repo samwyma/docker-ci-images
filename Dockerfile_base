@@ -1,4 +1,4 @@
-FROM docker:stable
+FROM python:3.8-alpine3.11
 
 ENV SHELL /bin/bash
 
