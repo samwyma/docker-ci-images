@@ -10,6 +10,7 @@ with open("version.json") as file:
     helm_version = versions["helm"]
     aws_iam_auth_version = versions["aws_iam_authenticator"]
     argo_version = versions["argo"]
+    tilt_version = versions["tilt"]
     render_version = versions["render"]
 
 
@@ -23,6 +24,7 @@ def host(request):
             "--build-arg=HELM_VERSION=" + helm_version,
             "--build-arg=AWS_IAM_AUTHENTICATOR_VERSION=" + aws_iam_auth_version,
             "--build-arg=ARGO_VERSION=" + argo_version,
+            "--build-arg=TILT_VERSION=" + tilt_version,
             "--build-arg=RENDER_VERSION=" + render_version,
             "-t",
             "landtech/ci-kubernetes",
@@ -46,3 +48,7 @@ def host(request):
 
 def test_promtool_exists(host):
     assert host.run("command -v promtool").succeeded
+
+
+def test_tilt_exists(host):
+    assert host.run("command -v tilt").succeeded

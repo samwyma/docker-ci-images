@@ -29,6 +29,13 @@ RUN apk add curl \
   && curl -L -s https://github.com/VirtusLab/render/releases/download/${RENDER_VERSION}/render-linux-amd64 -o /usr/local/bin/render \
   && chmod +x /usr/local/bin/render
 
+FROM alpine:3.12.0 as tilt
+ARG TILT_VERSION
+RUN apk add wget \
+  && wget -q https://github.com/tilt-dev/tilt/releases/download/$TILT_VERSION/tilt.${TILT_VERSION//v}.linux.x86_64.tar.gz -O - | tar -xzO tilt > /usr/local/bin/tilt \
+  && chmod +x /usr/local/bin/tilt
+
+
 FROM dnanexus/promtool:2.9.2 as prometheus
 
 FROM landtech/ci-node:latest
@@ -37,6 +44,7 @@ COPY --from=helm /usr/local/bin/helm /usr/local/bin
 COPY --from=authenticator /usr/local/bin/aws-iam-authenticator /usr/local/bin
 COPY --from=argo /usr/local/bin/argo /usr/local/bin
 COPY --from=render /usr/local/bin/render /usr/local/bin
+COPY --from=tilt /usr/local/bin/tilt /usr/local/bin
 COPY --from=prometheus /bin/promtool /usr/local/bin
 COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
