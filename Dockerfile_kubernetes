@@ -10,6 +10,8 @@ ARG HELM_VERSION
 RUN apk add wget \
   && wget -q https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm \
   && chmod +x /usr/local/bin/helm
+RUN helm repo add stable "https://kubernetes-charts.storage.googleapis.com/"
+RUN helm repo update
 
 FROM alpine:3.12.0 as authenticator
 ARG AWS_IAM_AUTHENTICATOR_VERSION
@@ -41,6 +43,7 @@ FROM dnanexus/promtool:2.9.2 as prometheus
 FROM landtech/ci-node:latest
 COPY --from=kube /usr/local/bin/kubectl /usr/local/bin
 COPY --from=helm /usr/local/bin/helm /usr/local/bin
+COPY --from=helm /root/.config/helm /root/.config/helm
 COPY --from=authenticator /usr/local/bin/aws-iam-authenticator /usr/local/bin
 COPY --from=argo /usr/local/bin/argo /usr/local/bin
 COPY --from=render /usr/local/bin/render /usr/local/bin
