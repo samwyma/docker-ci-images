@@ -50,8 +50,6 @@ COPY kubernetes/install_kube_iam_user.sh /usr/bin/install_kube_iam_user.sh
 
 RUN apk update \
   && apk add --no-cache openssh \
-  # init helm client
-  && helm init --client-only \
   # kubectl aliases
   && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/bin/k8_cluster_domain \
   && chmod +x /usr/local/bin/k8_cluster_domain \
