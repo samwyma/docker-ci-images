@@ -55,3 +55,6 @@ def test_tilt_exists(host):
 
 def test_helm_can_access_stable(host):
     assert host.run("helm search repo stable").succeeded
+
+def test_helm_can_access_bitnami(host):
+    assert host.run("helm search repo bitnami").succeeded
