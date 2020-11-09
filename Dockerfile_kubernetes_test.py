@@ -53,6 +53,9 @@ def test_promtool_exists(host):
 def test_tilt_exists(host):
     assert host.run("command -v tilt").succeeded
 
+def test_argo_runs(host):
+    assert host.run("argo --help").succeeded
+
 def test_helm_can_access_stable(host):
     assert host.run("helm search repo stable").succeeded
 
