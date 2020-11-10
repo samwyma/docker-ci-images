@@ -1,9 +1,9 @@
 {
   "kubectl": "v1.16.10",
   "kops": "v1.18.2",
-  "helm": "v3.3.4",
+  "helm": "v3.4.0",
   "argo": "v2.11.3",
   "tilt": "v0.17.6",
-  "render": "v0.1.7",
+  "render": "v0.2.0",
   "aws_iam_authenticator": "1.12.10/2019-08-14"
 }
