@@ -3,88 +3,97 @@
 # Installs and uses a kubectl context which authenticates with the kubernetes cluster using IAM
 # Args:
 #   --aws-profile <profile> - OPTIONAL - Will always use the profile with this name (in your aws creds) for authenticating with the cluster
-#                                        Otherwise, defaults to 'default' if not provided
+#                                        Otherwise, will use whatever profile is set in the current shell (or 'default' if none)
 #   --cluster <cluster_name> - OPTIONAL - Will set up the user and context for the given cluster
 #                                         Otherwise will use whatever cluster is in the current context
 
-set -euo pipefail
+set -e
 
-aws_profile="default"
-role="k8-admin"
-
-for var in "$@"; do
+for var in "$@"
+do
   case "$var" in
-  --aws-profile)
-    aws_profile="$2"
-    ;;
-  --cluster)
-    cluster_name="$2"
-    ;;
-  --role)
-    role="$2"
-    ;;
+    --aws-profile)
+      selected_aws_profile="$2"
+      ;;
+    --cluster)
+      cluster_name="$2"
+      ;;
   esac
   shift
 done
 
-export AWS_PROFILE="$aws_profile"
-
 if [ ! -f ~/.kube/config ]; then
-  echo "$HOME/.kube/config not found. Generating one..."
+  echo "~/.kube/config not found. Generating a new one"
   mkdir -p ~/.kube
-  kubectl config view >~/.kube/config
+  kubectl config view > ~/.kube/config
+fi
+
+if [ "$selected_aws_profile" == "" ]; then 
+  env=null
+else 
+  env='
+  [{
+    "name": "AWS_PROFILE",
+    "value": "'"$selected_aws_profile"'"
+  }]
+  '
+  export AWS_PROFILE="$selected_aws_profile"
 fi
 
 if [ "$cluster_name" == "" ]; then
   context=$(kubectl config current-context || echo "")
   if [ "$context" == "" ]; then
     echo "No current kubernetes context. You must set the --cluster flag with the desired cluster to use (e.g. --cluster k8.sandbox.landinsight.io)"
-    exit 1
+    exit 1;
   fi
-  cluster_name=$(kubectl config view -o json | jq -e -r ".contexts[] | select(.name == \"$context\") | .context.cluster")
+  cluster_name=$(kubectl config view -o json | jq -r ".contexts[] | select(.name == \"$context\") | .context.cluster")
 fi
 
-echo "Getting cluster ca data from credtash..."
-cluster_ca_data=$(credstash get "k8/ca-data/$cluster_name" || echo "")
+aws_account_id=$(aws sts get-caller-identity --output text --query 'Account')
+
+credstash_key="k8/ca-data/$cluster_name"
+echo "Getting cluster ca data from credtash under key $credstash_key"
+cluster_ca_data=$(credstash get "$credstash_key" || echo "")
 
 if [ "$cluster_ca_data" == "" ]; then
   echo "Could not get cluster ca data from credtash. Please ensure the ca data has been added to credtash under the key $credstash_key"
   exit 1
 fi
 
-cluster_user="$cluster_name.iam"
+user_name="$cluster_name.iam"
 
-temp_user="$(mktemp)"
-temp_config="$(mktemp)"
-
-echo "
-users:
-- name: $cluster_user
-  user:
-    exec:
-      apiVersion: client.authentication.k8s.io/v1alpha1
-      args:
-      - token
-      - -i
-      - $cluster_name
-      - -r
-      - arn:aws:iam::$(aws account-id):role/$role
-      command: aws-iam-authenticator
-      env:
-      - name: AWS_PROFILE
-        value: $aws_profile" >"$temp_user"
-
-echo "Merging generated config with defined config using KUBECONFIG var" # https://stackoverflow.com/a/56894036
-export KUBECONFIG=~/.kube/config:$temp_user
-kubectl config view --raw >"$temp_config"
+# Add (upsert) user
+new_user='
+{
+  "name": "'"$user_name"'",
+  "user": {
+    "exec": {
+      "command": "aws-iam-authenticator",
+      "args": [
+        "token",
+        "-i",
+        "'"$cluster_name"'",
+        "-r",
+        "arn:aws:iam::'"$aws_account_id"':role/k8-admin"
+      ],
+      "env": '"$env"',
+      "apiVersion": "client.authentication.k8s.io/v1alpha1"
+    }
+  }
+}
+'
+temp_config="/tmp/$(uuidgen)"
+cp ~/.kube/config /tmp/old_kube_config.yaml
+cat ~/.kube/config | yq . \
+  | jq 'del(.users[] | select(.name == "'"$user_name"'")) | .users[.users | length] |= . + '"$new_user"'' \
+  | yq -y . > "$temp_config"
 mv "$temp_config" ~/.kube/config
-rm -Rf "$temp_config"
-unset KUBECONFIG
 
-echo "Setting additional context values..."
+# Add context
+context_name="$cluster_name"
 kubectl config set-cluster "$cluster_name" --server "https://api.$cluster_name"
 kubectl config set "clusters.$cluster_name.certificate-authority-data" "$cluster_ca_data"
-kubectl config set-context "$cluster_name" --user "$cluster_user" --cluster "$cluster_name"
+kubectl config set-context "$context_name" --user "$user_name" --cluster "$cluster_name"
 
-echo "Using the newly generated context..."
-kubectl config use-context "$cluster_name"
+# Use this context
+kubectl config use-context "$context_name"
