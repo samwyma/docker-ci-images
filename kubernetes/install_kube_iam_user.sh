@@ -2,12 +2,14 @@
 
 # Installs and uses a kubectl context which authenticates with the kubernetes cluster using IAM
 # Args:
-# --aws-profile <aws_profile> - OPTIONAL
-#   Will always use the profile with this name (in your aws creds) for authenticating with the cluster
-#   Otherwise uses the current profile
 # --cluster <cluster> - REQUIRED
 #   Will set up the user and context for the given cluster
 #   Otherwise will use whatever cluster is in the current context
+# --aws-profile <aws_profile> - OPTIONAL
+#   Will always use the profile with this name (in your aws creds) for authenticating with the cluster
+#   Otherwise uses the current profile
+# --role <role> - OPTIONAL
+#   The role to assume on AWS. Defaults to 'k8-admin' if not provided
 
 set -eo pipefail
 
