@@ -2,7 +2,7 @@
 
 # Installs and uses a kubectl context which authenticates with the kubernetes cluster using IAM
 # Args:
-# --aws-profile <profile> - OPTIONAL
+# --aws-profile <aws_profile> - OPTIONAL
 #   Will always use the profile with this name (in your aws creds) for authenticating with the cluster
 #   Otherwise uses the current profile
 # --cluster <cluster> - REQUIRED
