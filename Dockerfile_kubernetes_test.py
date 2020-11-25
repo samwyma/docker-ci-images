@@ -61,3 +61,8 @@ def test_helm_can_access_stable(host):
 
 def test_helm_can_access_bitnami(host):
     assert host.run("helm search repo bitnami").succeeded
+
+def test_awscli_alias(host):
+    assert host.file("/root/.aws/cli/alias").exists
+    # run a version command with an alias, a fail will return code 2
+    assert host.run("aws account-id --version").succeeded
