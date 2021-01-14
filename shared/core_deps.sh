@@ -8,6 +8,7 @@ apk add --no-cache --virtual=dependencies \
   libc-dev \
   libffi-dev \
   gcc \
+  g++ \
   python3-dev
 
 # packages
