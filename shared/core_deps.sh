@@ -9,7 +9,9 @@ apk add --no-cache --virtual=dependencies \
   libffi-dev \
   gcc \
   g++ \
-  python3-dev
+  python3-dev \
+  rust \
+  cargo
 
 # packages
 apk add --no-cache \
