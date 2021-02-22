@@ -6,6 +6,8 @@ ENV SHELL /bin/bash
 COPY shared/deployment shared/semver.sh /usr/local/bin/
 COPY shared/core_deps.sh .
 
+ARG CRYPTOGRAPHY_DONT_BUILD_RUST
+
 RUN ./core_deps.sh \
     && rm core_deps.sh \
     && apk add --no-cache \
