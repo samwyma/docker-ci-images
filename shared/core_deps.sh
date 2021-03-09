@@ -41,7 +41,7 @@ apk add --no-cache \
 pip3 install --upgrade --no-cache-dir \
   awscli
 mkdir -p /root/.aws/cli
-curl --fail -s -o /root/.aws/cli/alias https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/aws-alias
+curl --fail -o /root/.aws/cli/alias https://raw.githubusercontent.com/samwyma/reformation/master/assets/aws-alias
 
 # pip
 pip3 install --upgrade --no-cache-dir \
@@ -59,4 +59,5 @@ cd ../
 rm -Rf bats-core
 
 # clean up
+apk del --purge dependencies
 rm -rf /tmp/* /var/cache/apk/*

@@ -5,7 +5,7 @@ import testinfra
 
 @pytest.fixture(scope="session")
 def host(request):
-    image = "landtech/ci-node"
+    image = "samwyma/ci-node"
 
     subprocess.check_call(
         ["docker", "build", "-t", image, "-f", "Dockerfile_node", "."]

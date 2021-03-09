@@ -6,11 +6,11 @@ import testinfra
 @pytest.fixture(scope="session")
 def host(request):
     subprocess.check_call(
-        ["docker", "build", "-t", "landtech/ci-base", "-f", "Dockerfile_base", "."]
+        ["docker", "build", "-t", "samwyma/ci-base", "-f", "Dockerfile_base", "."]
     )
     container = (
         subprocess.check_output(
-            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-base"]
+            ["docker", "run", "--rm", "--detach", "--tty", "samwyma/ci-base"]
         )
         .decode()
         .strip()

@@ -16,7 +16,7 @@ def host(request):
             "build",
             "--build-arg=VERSION=" + version,
             "-t",
-            "landtech/ci-kops",
+            "samwyma/ci-kops",
             "-f",
             "Dockerfile_kops",
             ".",
@@ -24,7 +24,7 @@ def host(request):
     )
     container = (
         subprocess.check_output(
-            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-kops"]
+            ["docker", "run", "--rm", "--detach", "--tty", "samwyma/ci-kops"]
         )
         .decode()
         .strip()

@@ -27,7 +27,7 @@ def host(request):
             "--build-arg=TILT_VERSION=" + tilt_version,
             "--build-arg=RENDER_VERSION=" + render_version,
             "-t",
-            "landtech/ci-kubernetes",
+            "samwyma/ci-kubernetes",
             "-f",
             "Dockerfile_kubernetes",
             ".",
@@ -35,7 +35,7 @@ def host(request):
     )
     container = (
         subprocess.check_output(
-            ["docker", "run", "--rm", "--detach", "--tty", "landtech/ci-kubernetes"]
+            ["docker", "run", "--rm", "--detach", "--tty", "samwyma/ci-kubernetes"]
         )
         .decode()
         .strip()

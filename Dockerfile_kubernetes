@@ -40,7 +40,7 @@ RUN apk add wget \
 
 FROM dnanexus/promtool:2.9.2 as prometheus
 
-FROM landtech/ci-node:latest
+FROM samwyma/ci-base:latest
 COPY --from=kube /usr/local/bin/kubectl /usr/local/bin
 COPY --from=helm /usr/local/bin/helm /usr/local/bin
 COPY --from=helm /root/.config/helm /root/.config/helm
@@ -56,8 +56,8 @@ RUN helm repo update
 RUN apk update \
   && apk add --no-cache openssh \
   # kubectl aliases
-  && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/bin/k8_cluster_domain \
+  && curl --fail -s -o /usr/local/bin/k8_cluster_domain https://raw.githubusercontent.com/samwyma/reformation/master/assets/bin/k8_cluster_domain \
   && chmod +x /usr/local/bin/k8_cluster_domain \
-  && curl --fail -s -o /usr/local/bin/k8_cluster_name https://raw.githubusercontent.com/landtechnologies/reformation/master/assets/bin/k8_cluster_name \
+  && curl --fail -s -o /usr/local/bin/k8_cluster_name https://raw.githubusercontent.com/samwyma/reformation/master/assets/bin/k8_cluster_name \
   && chmod +x /usr/local/bin/k8_cluster_name
 

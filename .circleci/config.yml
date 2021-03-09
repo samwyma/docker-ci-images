@@ -39,9 +39,9 @@ jobs:
           make base
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
-            docker tag landtech/ci-base landtech/ci-base:$CIRCLE_BUILD_NUM
-            docker push landtech/ci-base
-            docker push landtech/ci-base:$CIRCLE_BUILD_NUM
+            docker tag samwyma/ci-base samwyma/ci-base:$CIRCLE_BUILD_NUM
+            docker push samwyma/ci-base
+            docker push samwyma/ci-base:$CIRCLE_BUILD_NUM
           fi
 
   kops:
@@ -55,9 +55,9 @@ jobs:
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
             version="$(jq -r .kops version.json)"
-            docker tag landtech/ci-kops landtech/ci-kops:$version
-            docker push landtech/ci-kops
-            docker push landtech/ci-kops:$version
+            docker tag samwyma/ci-kops samwyma/ci-kops:$version
+            docker push samwyma/ci-kops
+            docker push samwyma/ci-kops:$version
           fi
 
   node:
@@ -78,7 +78,7 @@ jobs:
           make kubernetes
 
           if [ "$CIRCLE_BRANCH" == "master" ]; then
-            docker push landtech/ci-kubernetes
+            docker push samwyma/ci-kubernetes
           fi
 
 workflow_jobs: &workflow_jobs
