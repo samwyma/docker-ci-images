@@ -1,4 +1,4 @@
-.PHONY: help base kops kubernetes node eb
+.PHONY: help base kops kubernetes node eb kong
 
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
@@ -46,4 +46,9 @@ node:
 	pipenv install
 	pipenv run pytest -v Dockerfile_node_test.py
 
-
+KONG_VERSION=2.3
+## kong
+kong:
+	@echo "Building kong ${KONG_VERSION}"
+	docker build --build-arg VERSION=${KONG_VERSION} -t samwyma/kong:${KONG_VERSION} ./kong
+	docker push samwyma/kong:${KONG_VERSION}
